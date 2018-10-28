@@ -8,32 +8,34 @@ from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
 
-def wrapper(A: matrix, B: set):
-    pass
-
-
-def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
+def simplex(A: matrix, c: np.array, x: np.array, basic: set):
     """
     This function executes the simplex algorithm iteratively until it
     terminates. It is the core function of this project.
     """
 
-    z = np.dot(c, x)
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
 
     assert len(c) == n and len(x) == n
     assert len(basic) == m and \
         all(i in range(n) for i in basic)  # Make sure that basic is a valid base
 
-    nonbasic = set(range(n)) - basic  # Nonbasic index set
+    def iterate(x: np.array, basic: set):
+        """
+        Core simplex iteration. Intended for local use only,
+        within another simplex function.
+        """
 
-    while True:
+        nonbasic = set(range(n)) - basic  # Nonbasic index set
+        z = np.dot(c, x)
+
         B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
 
         B_mat = A[:, B]  # Get basic matrix (all rows of A, columns specified by basic)
 
         # Calculate inverse:
         B_inv = inv(B_mat)
+
 
         """Optimality test"""
         temp_product = c[B] * B_inv  # Store product for efficiency
@@ -42,22 +44,23 @@ def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
             if r_q < 0:
                 break
         else:
-            print("Found optimal solution at x = {0}".format(x))
-            return 0  # Found optimal solution
+            return 1, x, basis  # Found optimal solution
+
 
         """Feasible basic direction"""
         d = np.array([np.asscalar(-B_inv[B.index(j), :] * A[:, q]) if j in basic else 1 if j == q else 0
                       for j in range(n)])
 
+
         """Maximum step length"""
         neg = [(-x[i] / d[i], i) for i in basic if d[i] < 0]
 
         if len(neg) == 0:
-            print("Unlimited problem. Feasible ray: {0}".format(d))
-            return 1  # Flag problem as unlimited
+            return 2, x, d  # Flag problem as unlimited
 
         buffer = min(neg, key=(lambda tuple_: tuple_[0]))
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
+
 
         """Variable updates"""
         x = x + theta * d  # Update all variables
@@ -66,7 +69,13 @@ def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
         z = z + theta * r_q
 
         basic = basic - {p} | {q}  # Update basis set
-        nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
+
+        return 0, x, basic
+
+    status = 0
+    while status == 0:
+        status, x, basis
+
 
 
 if __name__ == '__main__':
