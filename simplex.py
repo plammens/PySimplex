@@ -8,10 +8,6 @@ from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
 
-def wrapper(A: matrix, B: set):
-    pass
-
-
 def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
     """
     This function executes the simplex algorithm iteratively until it
