@@ -46,14 +46,16 @@ def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
                       for j in range(n)])
 
         """Maximum step length"""
-        neg = [(-x[i] / d[i], i) for i in basic if d[i] < 0]
+        theta = None  # Sentinel value
+        for i in [i for i in basic if d[i] < 0]:
+            candidate = -x[i] / d[i]
+            if theta is None or candidate < theta:
+                theta = candidate
+                p = i
 
-        if len(neg) == 0:
+        if theta is None:
             print("Unlimited problem. Feasible ray: {0}".format(d))
             return 1  # Flag problem as unlimited
-
-        buffer = min(neg, key=(lambda tup: tup[0]))
-        theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
 
         """Variable updates"""
         x = x + theta * d  # Update all variables
