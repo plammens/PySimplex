@@ -1,3 +1,8 @@
+"""
+Luis Sierra & Paolo Lammens -- FME-UPC
+TODO: refactor simplex function
+"""
+
 import numpy as np
 from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
@@ -10,8 +15,7 @@ def wrapper(A: matrix, B: set):
 def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
     """
     This function executes the simplex algorithm iteratively until it
-    terminates. It is the core function of this project, and is intended for
-    internal use only.
+    terminates. It is the core function of this project.
     """
 
     z = np.dot(c, x)
@@ -19,7 +23,7 @@ def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
 
     assert len(c) == n and len(x) == n
     assert len(basic) == m and \
-           all(i in range(n) for i in basic)  # Make sure that basic is a valid base
+        all(i in range(n) for i in basic)  # Make sure that basic is a valid base
 
     nonbasic = set(range(n)) - basic  # Nonbasic index set
 
@@ -52,7 +56,7 @@ def simplex(A: matrix, c: np.array, x: np.array, basic: set) -> int:
             print("Unlimited problem. Feasible ray: {0}".format(d))
             return 1  # Flag problem as unlimited
 
-        buffer = min(neg, key=(lambda tup: tup[0]))
+        buffer = min(neg, key=(lambda tuple_: tuple_[0]))
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
 
         """Variable updates"""
