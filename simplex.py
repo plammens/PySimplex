@@ -33,7 +33,10 @@ def simplex(A: matrix, b: np.array, c: np.array) -> (int, np.array, float):
     print("Executing phase I...")
     ext_I, x_init, basic_init, z_I, d = simplex_core(A_I, c_I, x_I, base_I)
     # ^ Exit code, initial BFS & basis, and z_I
+
     assert ext_I == 0
+    if any(j not in range(n) for j in basic_init):
+        raise NotImplementedError("Artificial variables in basis")
 
     x_init = x_init[:n]
 
