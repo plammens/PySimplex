@@ -24,14 +24,14 @@ def simplex(A: matrix, b: np.array, c: np.array) -> (int, np.array, float):
     A[[i for i in range(m) if b[i] < 0]] *= -1  # Change sign of constraints
     b = np.abs(b)  # Idem
 
-    A_I = np.concatenate((A, np.identity(m)), axis=1)  # Phase I constraint matrix
+    A_I = matrix(np.concatenate((A, np.identity(m)), axis=1))  # Phase I constraint matrix
     x_I = np.concatenate((np.zeros(n), b))  # Phase I variable vector
     c_I = np.concatenate((np.zeros(n), np.ones(m)))  # Phase I cost vector
-    base_I = set(range(n, n + m))  # Phase I basic variable set
+    basic_I = set(range(n, n + m))  # Phase I basic variable set
 
     """Phase I execution"""
     print("Executing phase I...")
-    ext_I, x_init, basic_init, z_I, d = simplex_core(A_I, c_I, x_I, base_I)
+    ext_I, x_init, basic_init, z_I, d = simplex_core(A_I, c_I, x_I, basic_I)
     # ^ Exit code, initial BFS & basis, and z_I
 
     assert ext_I == 0
