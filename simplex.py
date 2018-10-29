@@ -6,7 +6,7 @@ import numpy as np
 from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
-np.set_printoptions(precision=3, threshold= 10)
+np.set_printoptions(precision=3, threshold= 10, edgeitems=4, linewidth=120)  # Prettier array printing
 
 def simplex(A: matrix, b: np.array, c: np.array):
     """
@@ -14,6 +14,9 @@ def simplex(A: matrix, b: np.array, c: np.array):
     """
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
+
+    A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i,:], np.zeros(n))],:]  # Remove ld rows
+    m = A.shape[0]
 
     """Error-checking"""
     if b.shape != (m,):

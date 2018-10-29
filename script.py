@@ -15,7 +15,7 @@ prob = args.prob
 """
 
 num = 41
-prob = 1
+prob = 2
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
