@@ -14,39 +14,47 @@ prob = args.prob
 """
 
 num = 41
-prob = 1
+prob = 2
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
-    def skip_to(patt: str):
+    def skip_to(patt: re.Pattern):
         while True:
-            if re.search(patt, file.readline()):
-                break
+            line = file.readline()
+            if re.search(patt, line):
+                return line
 
     skip_to(r"cjt. dades {}, problema PL {}".format(num, prob))
 
     def parse_mat():
-        mat = []
+        mat = None
 
         line = file.readline()
         match = re.search(r"Columns (\d+) through (\d+)$", line)
 
         def read_block():
-            nonlocal line
+            nonlocal line, mat
+
+            block = []
             while line != "\n":
                 row = [int(c_j) for c_j in re.findall("-?\d+", line)]
-                mat.append(row)
+                block.append(row)
                 line = file.readline()
 
+            block = np.array(block)
+
+            if mat is not None:
+                mat = np.append(mat, block, axis=1)
+            else:
+                mat = block
+
         if bool(match):
-            file.readline()  # Blank line
-            read_block()
-            for i in range(3):
-                file.readline()
-            read_block()
+            for _ in (0, 1):
+                line = skip_to(re.compile(r"^ +(-?\d+ *){2,22}"))  # Skip to line with digits
+                read_block()
         else:
             read_block()
 
-        return np.matrix(mat) if len(mat) > 1 else np.array(mat[0])
+        return np.matrix(mat) if mat.shape[0] > 1 else mat[0]
 
     skip_to(r"c=")
     c = parse_mat()
@@ -56,4 +64,4 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
     skip_to("b=")
     b = parse_mat()
-
+    pass
