@@ -16,7 +16,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     """Error-checking"""
     if b.shape != (m,):
-        raise ValueError("Incompatible dimensions: b has shape {}, expected {}.".format(b.shape, (m,)))
+        raise ValueError("Incompatible dimensions: c_j has shape {}, expected {}.".format(b.shape, (m,)))
     if c.shape != (n,):
         raise ValueError("Incompatible dimensions: c has shape {}, expected {}.".format(c.shape, (n,)))
 
@@ -26,7 +26,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     A_I = matrix(np.concatenate((A, np.identity(m)), axis=1))  # Phase I constraint matrix
     x_I = np.concatenate((np.zeros(n), b))  # Phase I variable vector
-    c_I = np.concatenate((np.zeros(n), np.ones(m)))  # Phase I cost vector
+    c_I = np.concatenate((np.zeros(n), np.ones(m)))  # Phase I c_j vector
     basic_I = set(range(n, n + m))  # Phase I basic variable set
 
     """Phase I execution"""
@@ -53,7 +53,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
     print("Phase II terminated.\n")
 
     if ext == 0:
-        print("Found optimal solution at x = {}. Optimal cost: {}.".format(x, z))
+        print("Found optimal solution at x = {}. Optimal c_j: {}.".format(x, z))
     elif ext == 1:
         print("Unlimited problem. Found feasible ray d = {} from x = {}.".format(d, x))
 
