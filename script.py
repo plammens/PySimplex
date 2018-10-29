@@ -2,6 +2,7 @@
 # import sys
 import re
 import numpy as np
+import simplex
 
 """
 argparser = arg.ArgumentParser()
@@ -14,7 +15,7 @@ prob = args.prob
 """
 
 num = 41
-prob = 2
+prob = 1
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
@@ -65,3 +66,5 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     skip_to("b=")
     b = parse_mat()
     pass
+
+simplex.simplex(A, b, c)

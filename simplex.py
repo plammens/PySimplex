@@ -6,6 +6,7 @@ import numpy as np
 from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
+np.set_printoptions(precision=3, threshold= 10)
 
 def simplex(A: matrix, b: np.array, c: np.array):
     """
@@ -45,7 +46,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     x_init = x_init[:n]
 
-    print("Found initial BFS at x = {}.\n".format(x_init))
+    print("Found initial BFS at x = \n{}.\n".format(x_init))
 
     """Phase II"""
     print("Executing phase II...")
@@ -53,11 +54,11 @@ def simplex(A: matrix, b: np.array, c: np.array):
     print("Phase II terminated.\n")
 
     if ext == 0:
-        print("Found optimal solution at x = {}. Optimal c_j: {}.".format(x, z))
+        print("Found optimal solution at x = \n{}.\n\nOptimal cost: {}.".format(x, z))
     elif ext == 1:
         print("Unlimited problem. Found feasible ray d = {} from x = {}.".format(d, x))
 
-    print("{} iterations in phase I, {} iterations in phase II.".format(it_I, it_II))
+    print("{} iterations in phase I, {} iterations in phase II ({} total).".format(it_I, it_II, it_I + it_II))
 
     return ext, x, z, d
 
@@ -96,7 +97,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
             if r_q < 0:
                 break
         else:
-            print("\tfound optimum at x = {0}".format(x))
+            print("\tfound optimum")
             return 0, x, basic, z, None, it  # Found optimal solution
 
         """Feasible basic direction"""
@@ -114,26 +115,20 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
 
         """Variable updates"""
-        x = x + theta * d  # Update all variables
+        x = np.round(x + theta * d, 10)  # Update all variables
         assert x[p] == 0
 
-        z = z + theta * r_q
+        z = round(z + theta * r_q, 8)
 
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
 
         """Print status update"""
         print(
-            "\tq = {:>2} \trq = {:>4} \tp = {:>2} \ttheta* = {:>5} \tz = {:>5}"
-            .format(it, q, r_q, p, theta, z)
+            "\tq = {:>2} \trq = {:>9.2f} \tp = {:>2d} \ttheta* = {:>5.4f} \tz = {:<9.2f}"
+            .format(q + 1, r_q, p + 1, theta, z)
         )
 
         it += 1
 
 
-if __name__ == '__main__':
-    A_ = matrix([[2, 1, 1, 0], [0, 1, 0, 1]])
-    b_ = np.array([8, 6])
-    c_ = np.array([1, 1, 0, 0])
-
-    simplex(A_, b_, c_)
