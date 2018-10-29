@@ -7,7 +7,7 @@ from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
 
-def simplex(A: matrix, b: np.array, c: np.array) -> (int, np.array, float):
+def simplex(A: matrix, b: np.array, c: np.array):
     """
     Outer "wrapper" for executing the simplex method: phase I and phase II.
     """
@@ -31,31 +31,35 @@ def simplex(A: matrix, b: np.array, c: np.array) -> (int, np.array, float):
 
     """Phase I execution"""
     print("Executing phase I...")
-    ext_I, x_init, basic_init, z_I, d = simplex_core(A_I, c_I, x_I, basic_I)
-    # ^ Exit code, initial BFS & basis, and z_I
+    ext_I, x_init, basic_init, z_I, d, it_I = simplex_core(A_I, c_I, x_I, basic_I)
+    # ^ Exit code, initial BFS & basis, z_I, d (not needed) and no of iterations
+    print("Phase I terminated.")
 
     assert ext_I == 0
     if any(j not in range(n) for j in basic_init):
         raise NotImplementedError("Artificial variables in basis")
 
-    x_init = x_init[:n]
-
     if z_I > 0:
-        print("Infeasible problem")
+        print("Infeasible problem (z_I = {} > 0).".format(z_I))
         return 2, None, None
 
-    print()
+    x_init = x_init[:n]
+
+    print("Found initial BFS at x = {}.\n".format(x_init))
 
     """Phase II"""
     print("Executing phase II...")
-    ext, x, basic, z, d = simplex_core(A, c, x_init, basic_init)
+    ext, x, basic, z, d, it_II = simplex_core(A, c, x_init, basic_init)
+    print("Phase II terminated.\n")
 
     if ext == 0:
         print("Found optimal solution at x = {}. Optimal cost: {}.".format(x, z))
-        return 0, x, z
     elif ext == 1:
         print("Unlimited problem. Found feasible ray d = {} from x = {}.".format(d, x))
-        return 1, x, None, d
+
+    print("{} iterations in phase I, {} iterations in phase II.".format(it_I, it_II))
+
+    return ext, x, z, d
 
 
 def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.array, set, float, np.array):
@@ -68,13 +72,16 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
 
     assert c.shape == (n,) and x.shape == (n,)
     assert len(basic) == m and \
-        all(i in range(n) for i in basic)  # Make sure that basic is a valid base
+           all(i in range(n) for i in basic)  # Make sure that basic is a valid base
 
     nonbasic = set(range(n)) - basic  # Nonbasic index set
 
     z = np.dot(c, x)
 
+    it = 1
     while True:
+        print("\tIteration no. {}:".format(it), end='')
+
         B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
 
         B_mat = A[:, B]  # Get basic matrix (all rows of A, columns specified by basic)
@@ -89,8 +96,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
             if r_q < 0:
                 break
         else:
-            print("Found optimal solution at x = {0}".format(x))
-            return 0, x, basic, z, None  # Found optimal solution
+            print("\tfound optimum at x = {0}".format(x))
+            return 0, x, basic, z, None, it  # Found optimal solution
 
         """Feasible basic direction"""
         d = np.array([np.asscalar(-B_inv[B.index(j), :] * A[:, q]) if j in basic else 1 if j == q else 0
@@ -100,8 +107,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
         neg = [(-x[i] / d[i], i) for i in basic if d[i] < 0]
 
         if len(neg) == 0:
-            print("Unlimited problem. Feasible ray: {0}".format(d))
-            return 1, x, basic, None, d  # Flag problem as unlimited
+            print("\tidentified unlimited problem")
+            return 1, x, basic, None, d, it  # Flag problem as unlimited
 
         buffer = min(neg, key=(lambda tuple_: tuple_[0]))
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
@@ -114,6 +121,14 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
 
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
+
+        """Print status update"""
+        print(
+            "\tq = {:>2} \trq = {:>4} \tp = {:>2} \ttheta* = {:>5} \tz = {:>5}"
+            .format(it, q, r_q, p, theta, z)
+        )
+
+        it += 1
 
 
 if __name__ == '__main__':
