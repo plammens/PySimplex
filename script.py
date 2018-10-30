@@ -1,10 +1,9 @@
-# import argparse as arg
-# import sys
+import argparse as arg
+import sys
 import re
 import numpy as np
 import simplex
 
-"""
 argparser = arg.ArgumentParser()
 argparser.add_argument("num", type=int, default=1)
 argparser.add_argument("prob", type=int, default=1)
@@ -12,10 +11,6 @@ args = argparser.parse_args(sys.argv[1:])
 
 num = args.num
 prob = args.prob
-"""
-
-num = 41
-prob = 2
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
@@ -24,7 +19,7 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
             if re.search(patt, line):
                 return line
 
-    skip_to(r"cjt. dades {}, problema PL {}".format(num, prob))
+    skip_to(r"cjt. dades {:>2}, problema PL {:>}".format(num, prob))
 
     def parse_mat():
         mat = None

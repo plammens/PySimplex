@@ -15,8 +15,13 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
 
-    A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i,:], np.zeros(n))],:]  # Remove ld rows
-    m = A.shape[0]
+    if n < m:
+        raise ValueError
+
+    if not np.linalg.matrix_rank(A) == m:
+        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i,:], np.zeros(n))],:]
+        # Remove ld rows
+        m = A.shape[0]
 
     """Error-checking"""
     if b.shape != (m,):
@@ -43,7 +48,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
     if any(j not in range(n) for j in basic_init):
         raise NotImplementedError("Artificial variables in basis")
 
-    if z_I > 0:
+    if round(z_I, 6) > 0:
         print("Infeasible problem (z_I = {} > 0).".format(z_I))
         return 2, None, None
 
@@ -121,7 +126,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
         x = np.round(x + theta * d, 10)  # Update all variables
         assert x[p] == 0
 
-        z = round(z + theta * r_q, 8)
+        z = z + theta * r_q
 
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
