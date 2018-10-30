@@ -6,7 +6,8 @@ import numpy as np
 from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
-np.set_printoptions(precision=3, threshold= 10, edgeitems=4, linewidth=120)  # Prettier array printing
+np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Prettier array printing
+
 
 def simplex(A: matrix, b: np.array, c: np.array):
     """
@@ -16,10 +17,11 @@ def simplex(A: matrix, b: np.array, c: np.array):
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
 
     if n < m:
-        raise ValueError
+        raise ValueError("Incompatible dimensions "
+                         "(no. of variables : {} > {} : no.of constraints".format(n, m))
 
     if not np.linalg.matrix_rank(A) == m:
-        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i,:], np.zeros(n))],:]
+        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i, :], np.zeros(n))], :]
         # Remove ld rows
         m = A.shape[0]
 
@@ -45,12 +47,11 @@ def simplex(A: matrix, b: np.array, c: np.array):
     print("Phase I terminated.")
 
     assert ext_I == 0
+    if round(z_I, 6) > 0:
+        print_boxed("Infeasible problem (z_I = {:.6g} > 0).".format(z_I))
+        return 2, None, None
     if any(j not in range(n) for j in basic_init):
         raise NotImplementedError("Artificial variables in basis")
-
-    if round(z_I, 6) > 0:
-        print("Infeasible problem (z_I = {} > 0).".format(z_I))
-        return 2, None, None
 
     x_init = x_init[:n]
 
@@ -62,11 +63,12 @@ def simplex(A: matrix, b: np.array, c: np.array):
     print("Phase II terminated.\n")
 
     if ext == 0:
-        print("Found optimal solution at x = \n{}.\n\nOptimal cost: {}.".format(x, z))
+        print_boxed("Found optimal solution at x =\n{}.\n\nOptimal cost: {}.".format(x, z))
     elif ext == 1:
-        print("Unlimited problem. Found feasible ray d = {} from x = {}.".format(d, x))
+        print_boxed("Unlimited problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
 
-    print("{} iterations in phase I, {} iterations in phase II ({} total).".format(it_I, it_II, it_I + it_II))
+    print("{} iterations in phase I, {} iterations in phase II ({} total).".format(it_I, it_II, it_I + it_II),
+          end='\n\n')
 
     return ext, x, z, d
 
@@ -134,9 +136,22 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
         """Print status update"""
         print(
             "\tq = {:>2} \trq = {:>9.2f} \tp = {:>2d} \ttheta* = {:>5.4f} \tz = {:<9.2f}"
-            .format(q + 1, r_q, p + 1, theta, z)
+                .format(q + 1, r_q, p + 1, theta, z)
         )
 
         it += 1
 
 
+def print_boxed(msg: str) -> None:
+    """Utility for printing pretty boxes."""
+
+    lines = msg.splitlines()
+    max_len = max(len(line) for line in lines)
+
+    if max_len > 100:
+        raise ValueError("Overfull box")
+
+    print('-' * (max_len + 4))
+    for line in lines:
+        print('| ' + line + ' ' * (max_len - len(line)) + ' |')
+    print('-' * (max_len + 4))
