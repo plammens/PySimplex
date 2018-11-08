@@ -58,7 +58,7 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     skip_to(r"A=")
     A = parse_mat()
 
-    skip_to("b=")
+    skip_to(r"b=")
     b = parse_mat()
     pass
 
