@@ -8,6 +8,8 @@ from numpy.matlib import matrix  # Matrix data type
 
 np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Prettier array printing
 
+epsilon = 10**(-10)  # Global truncation threshold
+
 
 def simplex(A: matrix, b: np.array, c: np.array):
     """
@@ -111,7 +113,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
             return 0, x, basic, z, None, it  # Found optimal solution
 
         """Feasible basic direction"""
-        d = np.array([np.asscalar(-B_inv[B.index(j), :] * A[:, q]) if j in basic else 1 if j == q else 0
+        d = np.array([trunc(np.asscalar(-B_inv[B.index(j), :] * A[:, q]))
+                      if j in basic else 1 if j == q else 0
                       for j in range(n)])
 
         """Maximum step length"""
@@ -155,3 +158,7 @@ def print_boxed(msg: str) -> None:
     for line in lines:
         print('| ' + line + ' ' * (max_len - len(line)) + ' |')
     print('-' * (max_len + 4))
+
+
+def trunc(x: float) -> float:
+    return x if abs(x) >= epsilon else 0

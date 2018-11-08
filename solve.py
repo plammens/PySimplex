@@ -62,4 +62,9 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     b = parse_mat()
     pass
 
+
+print("Solving problem set {}, problem number {}...".format(num, prob), end="\n\n")
+
 simplex.simplex(A, b, c)
+
+print("\n\n")
