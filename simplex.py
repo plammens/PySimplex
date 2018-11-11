@@ -11,7 +11,7 @@ np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Pr
 epsilon = 10**(-10)  # Global truncation threshold
 
 
-def simplex(A: matrix, b: np.array, c: np.array):
+def simplex(A: matrix, b: np.array, c: np.array, rule: int):
     """
     Outer "wrapper" for executing the simplex method: phase I and phase II.
     """
@@ -44,7 +44,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     """Phase I execution"""
     print("Executing phase I...")
-    ext_I, x_init, basic_init, z_I, d, it_I = simplex_core(A_I, c_I, x_I, basic_I)
+    ext_I, x_init, basic_init, z_I, d, it_I = simplex_core(A_I, c_I, x_I, basic_I, rule)
     # ^ Exit code, initial BFS & basis, z_I, d (not needed) and no of iterations
     print("Phase I terminated.")
 
@@ -61,7 +61,7 @@ def simplex(A: matrix, b: np.array, c: np.array):
 
     """Phase II"""
     print("Executing phase II...")
-    ext, x, basic, z, d, it_II = simplex_core(A, c, x_init, basic_init)
+    ext, x, basic, z, d, it_II = simplex_core(A, c, x_init, basic_init, rule)
     print("Phase II terminated.\n")
 
     if ext == 0:
@@ -75,7 +75,8 @@ def simplex(A: matrix, b: np.array, c: np.array):
     return ext, x, z, d
 
 
-def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.array, set, float, np.array):
+def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
+        -> (int, np.array, set, float, np.array):
     """
     This function executes the simplex algorithm iteratively until it
     terminates. It is the core function of this project.
@@ -104,11 +105,22 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set) -> (int, np.ar
 
         """Optimality test"""
         temp_product = c[B] * B_inv  # Store product for efficiency
-        for q in N:  # Read in lexicographical index order
-            r_q = np.asscalar(c[q] - temp_product * A[:, q])
-            if r_q < 0:
-                break
+
+        optimum = False
+        if rule == 0:
+            for q in N:  # Read in lexicographical index order
+                r_q = np.asscalar(c[q] - temp_product * A[:, q])
+                if r_q < 0:
+                    optimum = True
+                    break
+        elif rule == 1:
+            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N], key=(lambda x: x[0]))
+            if r_q >= 0:
+                optimum = True
         else:
+            raise ValueError
+
+        if optimum:
             print("\tfound optimum")
             return 0, x, basic, z, None, it  # Found optimal solution
 

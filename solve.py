@@ -7,10 +7,12 @@ import simplex
 argparser = arg.ArgumentParser()
 argparser.add_argument("num", type=int, default=1)
 argparser.add_argument("prob", type=int, default=1)
+argparser.add_argument("rule", type=str, default="bland")
 args = argparser.parse_args(sys.argv[1:])
 
 num = args.num
 prob = args.prob
+rule = 0 if args.rule == "bland" else 1
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
@@ -65,6 +67,6 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
 print("Solving problem set {}, problem number {}...".format(num, prob), end="\n\n")
 
-simplex.simplex(A, b, c)
+simplex.simplex(A, b, c, rule)
 
 print("\n\n")
