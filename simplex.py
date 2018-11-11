@@ -18,20 +18,22 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int):
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
 
+    """Error-checking"""
     if n < m:
         raise ValueError("Incompatible dimensions "
                          "(no. of variables : {} > {} : no.of constraints".format(n, m))
-
-    if not np.linalg.matrix_rank(A) == m:
-        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i, :], np.zeros(n))], :]
-        # Remove ld rows
-        m = A.shape[0]
-
-    """Error-checking"""
     if b.shape != (m,):
         raise ValueError("Incompatible dimensions: c_j has shape {}, expected {}.".format(b.shape, (m,)))
     if c.shape != (n,):
         raise ValueError("Incompatible dimensions: c has shape {}, expected {}.".format(c.shape, (n,)))
+
+
+    "Check full rank matrix"
+    if not np.linalg.matrix_rank(A) == m:
+        # Remove ld rows:
+        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i, :], np.zeros(n))], :]
+        m = A.shape[0]  # Update no. of rows
+
 
     """Phase I setup"""
     A[[i for i in range(m) if b[i] < 0]] *= -1  # Change sign of constraints
@@ -42,26 +44,29 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int):
     c_I = np.concatenate((np.zeros(n), np.ones(m)))  # Phase I c_j vector
     basic_I = set(range(n, n + m))  # Phase I basic variable set
 
+
     """Phase I execution"""
     print("Executing phase I...")
     ext_I, x_init, basic_init, z_I, d, it_I = simplex_core(A_I, c_I, x_I, basic_I, rule)
-    # ^ Exit code, initial BFS & basis, z_I, d (not needed) and no of iterations
+    # ^ Exit code, initial BFS & basis, z_I, d (not needed) and no. of iterations
     print("Phase I terminated.")
 
-    assert ext_I == 0
-    if round(z_I, 6) > 0:
+    assert ext_I == 0  # assert that phase I has an optimal solution (and is not unlimited)
+    if z_I > 0:
         print("\n")
         print_boxed("Unfeasible problem (z_I = {:.6g} > 0).".format(z_I))
         print("{} iterations in phase I.".format(it_I), end='\n\n')
         return 2, None, None
     if any(j not in range(n) for j in basic_init):
+        # If some artificial variable is in the basis for the initial BFS, exit:
         raise NotImplementedError("Artificial variables in basis")
 
     x_init = x_init[:n]
 
     print("Found initial BFS at x = \n{}.\n".format(x_init))
 
-    """Phase II"""
+
+    """Phase II execution"""
     print("Executing phase II...")
     ext, x, basic, z, d, it_II = simplex_core(A, c, x_init, basic_init, rule)
     print("Phase II terminated.\n")
@@ -154,10 +159,10 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
 
 
         """Variable updates"""
-        x = np.round(x + theta * d, 10)  # Update all variables
+        x = np.array([trunc(var) for var in (x + theta * d)])  # Update all variables
         assert x[p] == 0
 
-        z = z + theta * r_q
+        z = trunc(z + theta * r_q)  # Update obj. function value
 
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
