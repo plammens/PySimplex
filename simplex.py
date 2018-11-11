@@ -106,14 +106,18 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
         """Optimality test"""
         temp_product = c[B] * B_inv  # Store product for efficiency
 
-        optimum = False
         if rule == 0:
+            optimum = True
+
             for q in N:  # Read in lexicographical index order
                 r_q = np.asscalar(c[q] - temp_product * A[:, q])
                 if r_q < 0:
-                    optimum = True
+                    optimum = False
                     break
+
         elif rule == 1:
+            optimum = False
+
             r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N], key=(lambda x: x[0]))
             if r_q >= 0:
                 optimum = True
