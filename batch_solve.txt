@@ -352,3 +352,380 @@ Phase I terminated.
 
 
 
+Solving problem set 70, problem number 1...
+
+Executing phase I...
+	Iteration no. 1:	q =  1 	rq =   -144.00 	p = 21 	theta* = 0.6494 	z = 2081.49  
+	Iteration no. 2:	q =  2 	rq =   -300.00 	p = 27 	theta* = 0.0164 	z = 2076.59  
+	Iteration no. 3:	q =  3 	rq =    -83.76 	p = 23 	theta* = 0.6383 	z = 2023.12  
+	Iteration no. 4:	q =  5 	rq =   -182.75 	p =  2 	theta* = 0.5780 	z = 1917.49  
+	Iteration no. 5:	q =  6 	rq =   -339.11 	p =  3 	theta* = 0.4563 	z = 1762.75  
+	Iteration no. 6:	q =  4 	rq =    -15.15 	p = 22 	theta* = 1.3246 	z = 1742.68  
+	Iteration no. 7:	q =  7 	rq =   -598.65 	p =  4 	theta* = 0.5107 	z = 1436.93  
+	Iteration no. 8:	q =  3 	rq =   -171.02 	p = 29 	theta* = 0.3758 	z = 1372.67  
+	Iteration no. 9:	q =  2 	rq =    -85.59 	p = 26 	theta* = 0.4224 	z = 1336.51  
+	Iteration no. 10:	q =  8 	rq =   -146.30 	p =  5 	theta* = 1.5648 	z = 1107.59  
+	Iteration no. 11:	q =  4 	rq =   -225.03 	p = 25 	theta* = 1.0199 	z = 878.08   
+	Iteration no. 12:	q =  9 	rq =   -151.35 	p = 28 	theta* = 1.6685 	z = 625.55   
+	Iteration no. 13:	q = 10 	rq =   -115.88 	p = 30 	theta* = 1.5751 	z = 443.03   
+	Iteration no. 14:	q =  5 	rq =   -480.16 	p =  9 	theta* = 0.2550 	z = 320.61   
+	Iteration no. 15:	q = 11 	rq =   -230.86 	p =  7 	theta* = 0.9500 	z = 101.28   
+	Iteration no. 16:	q =  9 	rq =    -77.86 	p =  8 	theta* = 1.0374 	z = 20.51    
+	Iteration no. 17:	q = 12 	rq =     -7.18 	p =  6 	theta* = 1.1683 	z = 12.12    
+	Iteration no. 18:	q = 13 	rq =   -276.36 	p = 24 	theta* = 0.0439 	z = 0.00     
+	Iteration no. 19:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[1.671 0.774 1.745 1.84  ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  6 	rq =   -130.41 	p = 12 	theta* = 1.1647 	z = 24.68    
+	Iteration no. 2:	q =  8 	rq =   -228.54 	p =  9 	theta* = 1.1197 	z = -231.21  
+	Iteration no. 3:	q =  7 	rq =    -87.84 	p =  3 	theta* = 0.7884 	z = -300.46  
+	Iteration no. 4:	q = 16 	rq =     -0.58 	p = 11 	theta* = 115.5915 	z = -367.66  
+	Iteration no. 5:	q =  3 	rq =    -62.29 	p =  7 	theta* = 0.1169 	z = -374.94  
+	Iteration no. 6:	q = 17 	rq =     -0.35 	p =  3 	theta* = 32.3848 	z = -386.44  
+	Iteration no. 7:	q = 19 	rq =     -0.21 	p = 17 	theta* = 84.0782 	z = -404.05  
+	Iteration no. 8:	q = 14 	rq =    -15.94 	p =  2 	theta* = 0.3812 	z = -410.13  
+	Iteration no. 9:	q = 20 	rq =     -0.34 	p = 14 	theta* = 40.9007 	z = -423.84  
+	Iteration no. 10:	q = 17 	rq =     -0.16 	p = 16 	theta* = 302.7238 	z = -471.53  
+	Iteration no. 11:	found optimum
+Phase II terminated.
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
+|                                                                        |
+| Optimal cost: -471.5280570075495.                                      |
+--------------------------------------------------------------------------
+19 iterations in phase I, 11 iterations in phase II (30 total).
+
+
+
+
+Solving problem set 70, problem number 1...
+
+Executing phase I...
+	Iteration no. 1:	q = 11 	rq =   -417.00 	p = 21 	theta* = 0.6098 	z = 1920.73  
+	Iteration no. 2:	q =  5 	rq =   -622.51 	p = 24 	theta* = 0.0937 	z = 1862.43  
+	Iteration no. 3:	q =  1 	rq =   -826.03 	p = 30 	theta* = 0.5118 	z = 1439.65  
+	Iteration no. 4:	q = 13 	rq =  -1406.79 	p = 27 	theta* = 0.1926 	z = 1168.74  
+	Iteration no. 5:	q =  3 	rq =  -1017.98 	p = 29 	theta* = 0.0408 	z = 1127.16  
+	Iteration no. 6:	q =  2 	rq =   -417.66 	p = 23 	theta* = 0.0122 	z = 1122.06  
+	Iteration no. 7:	q =  7 	rq =   -359.46 	p =  3 	theta* = 0.4509 	z = 959.99   
+	Iteration no. 8:	q = 14 	rq =  -3322.52 	p = 26 	theta* = 0.0135 	z = 915.29   
+	Iteration no. 9:	q =  6 	rq =   -450.74 	p = 22 	theta* = 0.4555 	z = 709.95   
+	Iteration no. 10:	q =  9 	rq =   -319.56 	p =  1 	theta* = 0.2231 	z = 638.67   
+	Iteration no. 11:	q = 12 	rq =   -448.49 	p = 28 	theta* = 0.4490 	z = 437.28   
+	Iteration no. 12:	q =  8 	rq =   -219.63 	p =  5 	theta* = 0.9233 	z = 234.49   
+	Iteration no. 13:	q =  1 	rq =   -514.91 	p = 11 	theta* = 0.4287 	z = 13.75    
+	Iteration no. 14:	q =  3 	rq =   -271.53 	p = 25 	theta* = 0.0507 	z = 0.00     
+	Iteration no. 15:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[0.416 0.671 0.051 0.    ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  4 	rq =    -91.83 	p =  3 	theta* = 0.0517 	z = 132.86   
+	Iteration no. 2:	q = 10 	rq =   -126.67 	p =  9 	theta* = 2.8653 	z = -230.08  
+	Iteration no. 3:	q = 11 	rq =   -177.72 	p = 12 	theta* = 0.2472 	z = -274.02  
+	Iteration no. 4:	q =  5 	rq =    -70.74 	p = 14 	theta* = 0.3738 	z = -300.46  
+	Iteration no. 5:	q = 16 	rq =     -0.58 	p = 11 	theta* = 115.5915 	z = -367.66  
+	Iteration no. 6:	q =  3 	rq =    -62.29 	p =  7 	theta* = 0.1169 	z = -374.94  
+	Iteration no. 7:	q = 17 	rq =     -0.35 	p =  3 	theta* = 32.3848 	z = -386.44  
+	Iteration no. 8:	q = 19 	rq =     -0.21 	p = 17 	theta* = 84.0782 	z = -404.05  
+	Iteration no. 9:	q = 14 	rq =    -15.94 	p =  2 	theta* = 0.3812 	z = -410.13  
+	Iteration no. 10:	q = 20 	rq =     -0.34 	p = 14 	theta* = 40.9007 	z = -423.84  
+	Iteration no. 11:	q = 18 	rq =     -0.18 	p = 16 	theta* = 89.8859 	z = -440.46  
+	Iteration no. 12:	q = 17 	rq =     -0.10 	p = 18 	theta* = 302.7238 	z = -471.53  
+	Iteration no. 13:	found optimum
+Phase II terminated.
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
+|                                                                        |
+| Optimal cost: -471.528057003315.                                       |
+--------------------------------------------------------------------------
+15 iterations in phase I, 13 iterations in phase II (28 total).
+
+
+
+
+Solving problem set 70, problem number 2...
+
+Executing phase I...
+	Iteration no. 1:	q =  1 	rq =   -171.00 	p = 28 	theta* = 1.3191 	z = 2461.43  
+	Iteration no. 2:	q =  2 	rq =   -379.98 	p = 29 	theta* = 1.1268 	z = 2033.27  
+	Iteration no. 3:	q =  5 	rq =   -528.68 	p = 26 	theta* = 1.0047 	z = 1502.12  
+	Iteration no. 4:	q =  4 	rq =   -178.79 	p = 24 	theta* = 1.8500 	z = 1171.37  
+	Iteration no. 5:	q =  8 	rq =    -46.41 	p =  4 	theta* = 1.6871 	z = 1093.06  
+	Iteration no. 6:	q =  9 	rq =   -871.42 	p = 27 	theta* = 0.2670 	z = 860.39   
+	Iteration no. 7:	q =  3 	rq =   -133.98 	p = 25 	theta* = 1.8592 	z = 611.30   
+	Iteration no. 8:	q =  4 	rq =   -240.67 	p = 21 	theta* = 0.1051 	z = 585.99   
+	Iteration no. 9:	q =  7 	rq =   -349.11 	p = 22 	theta* = 1.2485 	z = 150.12   
+	Iteration no. 10:	q =  6 	rq =    -73.90 	p =  3 	theta* = 1.0614 	z = 71.68    
+	Iteration no. 11:	q = 10 	rq =   -147.68 	p = 30 	theta* = 0.4585 	z = 3.97     
+	Iteration no. 12:	q = 11 	rq =    -43.60 	p = 23 	theta* = 0.0911 	z = 0.00     
+	Iteration no. 13:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[1.486 1.144 0.    1.39  ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  3 	rq =    -19.69 	p =  5 	theta* = 1.0228 	z = -86.10   
+	Iteration no. 2:	q = 13 	rq =   -247.45 	p =  1 	theta* = 0.0861 	z = -107.41  
+	Iteration no. 3:	q =  5 	rq =    -48.89 	p =  2 	theta* = 2.2344 	z = -216.64  
+	Iteration no. 4:	q =  1 	rq =    -81.91 	p = 11 	theta* = 0.1807 	z = -231.44  
+	Iteration no. 5:	q = 12 	rq =    -28.62 	p =  9 	theta* = 2.5771 	z = -305.21  
+	Iteration no. 6:	q = 14 	rq =   -106.41 	p =  6 	theta* = 0.6053 	z = -369.63  
+	Iteration no. 7:	q =  2 	rq =    -28.28 	p =  8 	theta* = 1.1928 	z = -403.36  
+	Iteration no. 8:	q = 11 	rq =    -33.24 	p =  4 	theta* = 1.2642 	z = -445.38  
+	Iteration no. 9:	q =  8 	rq =    -31.91 	p =  1 	theta* = 0.3725 	z = -457.26  
+	Iteration no. 10:	q = 16 	rq =     -0.42 	p =  7 	theta* = 402.4053 	z = -627.76  
+	Iteration no. 11:	q =  1 	rq =     -7.38 	p =  3 	theta* = 1.0734 	z = -635.68  
+	Iteration no. 12:	q =  9 	rq =    -62.75 	p = 13 	theta* = 0.3237 	z = -655.99  
+	Iteration no. 13:	q = 18 	rq =     -1.15 	p =  9 	theta* = 76.1889 	z = -743.63  
+	Iteration no. 14:	q =  7 	rq =    -31.59 	p = 10 	theta* = 1.0123 	z = -775.60  
+	Iteration no. 15:	q = 17 	rq =     -0.07 	p =  5 	theta* = 100.3061 	z = -782.34  
+	Iteration no. 16:	q = 10 	rq =     -1.68 	p =  7 	theta* = 0.2136 	z = -782.69  
+	Iteration no. 17:	q = 20 	rq =     -0.52 	p = 10 	theta* = 22.2715 	z = -794.24  
+	Iteration no. 18:	found optimum
+Phase II terminated.
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
+|                                                                        |
+| Optimal cost: -794.2416133763497.                                      |
+--------------------------------------------------------------------------
+13 iterations in phase I, 18 iterations in phase II (31 total).
+
+
+
+
+Solving problem set 70, problem number 2...
+
+Executing phase I...
+	Iteration no. 1:	q =  9 	rq =   -538.00 	p = 28 	theta* = 0.8052 	z = 2253.81  
+	Iteration no. 2:	q =  4 	rq =   -829.17 	p = 21 	theta* = 0.0090 	z = 2246.36  
+	Iteration no. 3:	q = 11 	rq =   -911.67 	p = 22 	theta* = 0.6644 	z = 1640.69  
+	Iteration no. 4:	q =  1 	rq =   -598.78 	p = 29 	theta* = 0.5993 	z = 1281.81  
+	Iteration no. 5:	q =  6 	rq =   -404.04 	p = 26 	theta* = 1.1049 	z = 835.40   
+	Iteration no. 6:	q = 14 	rq =   -425.65 	p = 23 	theta* = 0.1473 	z = 772.68   
+	Iteration no. 7:	q = 12 	rq =   -769.86 	p = 24 	theta* = 0.2881 	z = 550.86   
+	Iteration no. 8:	q = 10 	rq =   -483.57 	p = 27 	theta* = 0.0802 	z = 512.06   
+	Iteration no. 9:	q =  7 	rq =   -803.70 	p = 30 	theta* = 0.1841 	z = 364.10   
+	Iteration no. 10:	q = 13 	rq =   -366.59 	p = 14 	theta* = 0.2133 	z = 285.90   
+	Iteration no. 11:	q =  2 	rq =   -941.85 	p = 25 	theta* = 0.3035 	z = 0.00     
+	Iteration no. 12:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[1.254 0.304 0.    2.185 ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  3 	rq =    -71.60 	p =  2 	theta* = 0.5268 	z = -236.46  
+	Iteration no. 2:	q = 14 	rq =   -147.25 	p =  9 	theta* = 0.6656 	z = -334.46  
+	Iteration no. 3:	q =  2 	rq =    -99.21 	p =  4 	theta* = 1.0746 	z = -441.08  
+	Iteration no. 4:	q =  8 	rq =    -36.24 	p =  1 	theta* = 0.0892 	z = -444.31  
+	Iteration no. 5:	q =  5 	rq =    -29.05 	p =  6 	theta* = 0.4459 	z = -457.26  
+	Iteration no. 6:	q = 18 	rq =     -0.48 	p =  5 	theta* = 153.3590 	z = -530.40  
+	Iteration no. 7:	q =  4 	rq =    -96.15 	p = 10 	theta* = 1.2399 	z = -649.61  
+	Iteration no. 8:	q = 19 	rq =     -0.48 	p = 13 	theta* = 119.3605 	z = -706.35  
+	Iteration no. 9:	q =  1 	rq =    -11.51 	p =  3 	theta* = 0.7748 	z = -715.27  
+	Iteration no. 10:	q = 20 	rq =     -0.22 	p =  4 	theta* = 116.4544 	z = -741.05  
+	Iteration no. 11:	q = 16 	rq =     -0.10 	p = 20 	theta* = 303.7979 	z = -770.70  
+	Iteration no. 12:	q =  5 	rq =    -23.26 	p = 19 	theta* = 0.2107 	z = -775.60  
+	Iteration no. 13:	q = 20 	rq =     -0.08 	p = 14 	theta* = 95.6634 	z = -783.04  
+	Iteration no. 14:	q =  3 	rq =     -1.25 	p = 12 	theta* = 0.1589 	z = -783.24  
+	Iteration no. 15:	q = 17 	rq =     -0.09 	p =  7 	theta* = 30.8212 	z = -785.92  
+	Iteration no. 16:	q = 14 	rq =     -5.92 	p =  1 	theta* = 0.0285 	z = -786.09  
+	Iteration no. 17:	q = 12 	rq =    -12.19 	p =  5 	theta* = 0.5544 	z = -792.85  
+	Iteration no. 18:	q =  1 	rq =     -1.24 	p =  3 	theta* = 1.1186 	z = -794.24  
+	Iteration no. 19:	found optimum
+Phase II terminated.
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
+|                                                                        |
+| Optimal cost: -794.2416134520921.                                      |
+--------------------------------------------------------------------------
+12 iterations in phase I, 19 iterations in phase II (31 total).
+
+
+
+
+Solving problem set 70, problem number 3...
+
+Executing phase I...
+	Iteration no. 1:	q =  1 	rq =   -399.00 	p = 21 	theta* = 0.3068 	z = 1478.58  
+	Iteration no. 2:	q =  2 	rq =   -358.12 	p = 30 	theta* = 0.6645 	z = 1240.59  
+	Iteration no. 3:	q =  4 	rq =   -324.37 	p = 22 	theta* = 0.2577 	z = 1157.01  
+	Iteration no. 4:	q =  5 	rq =   -177.78 	p =  2 	theta* = 0.9642 	z = 985.60   
+	Iteration no. 5:	q =  6 	rq =     -1.86 	p = 28 	theta* = 0.1241 	z = 985.37   
+	Iteration no. 6:	q =  9 	rq =   -708.53 	p =  6 	theta* = 0.1672 	z = 866.90   
+	Iteration no. 7:	q =  2 	rq =   -117.03 	p =  1 	theta* = 0.4016 	z = 819.90   
+	Iteration no. 8:	q = 15 	rq =     -1.00 	p = 25 	theta* = 117.3518 	z = 702.55   
+	Iteration no. 9:	q =  1 	rq =    -20.19 	p =  2 	theta* = 0.3922 	z = 694.63   
+	Iteration no. 10:	q = 10 	rq =    -29.54 	p = 29 	theta* = 0.0432 	z = 693.35   
+	Iteration no. 11:	q = 17 	rq =     -1.00 	p = 27 	theta* = 111.8824 	z = 581.47   
+	Iteration no. 12:	q = 19 	rq =     -0.41 	p = 10 	theta* = 4.6102 	z = 579.59   
+	Iteration no. 13:	q = 21 	rq =     -1.26 	p = 19 	theta* = 4.8998 	z = 573.43   
+	Iteration no. 14:	q = 20 	rq =     -1.23 	p =  1 	theta* = 16.0605 	z = 553.70   
+	Iteration no. 15:	found optimum
+Phase I terminated.
+-------------------------------------------
+| Infeasible problem (z_I = 553.699 > 0). |
+-------------------------------------------
+
+
+
+Solving problem set 70, problem number 3...
+
+Executing phase I...
+	Iteration no. 1:	q =  2 	rq =   -408.00 	p = 30 	theta* = 0.9767 	z = 1202.49  
+	Iteration no. 2:	q =  4 	rq =   -315.05 	p = 22 	theta* = 0.0667 	z = 1181.49  
+	Iteration no. 3:	q =  9 	rq =   -759.63 	p = 21 	theta* = 0.2036 	z = 1026.85  
+	Iteration no. 4:	q = 11 	rq =  -1206.05 	p = 28 	theta* = 0.1310 	z = 868.82   
+	Iteration no. 5:	q =  5 	rq =    -92.56 	p = 11 	theta* = 0.5286 	z = 819.90   
+	Iteration no. 6:	q = 17 	rq =     -1.00 	p = 27 	theta* = 113.3878 	z = 706.51   
+	Iteration no. 7:	q = 15 	rq =     -1.00 	p = 25 	theta* = 117.3518 	z = 589.16   
+	Iteration no. 8:	q = 10 	rq =    -63.67 	p = 29 	theta* = 0.0423 	z = 586.47   
+	Iteration no. 9:	q =  1 	rq =    -12.78 	p =  2 	theta* = 0.3910 	z = 581.47   
+	Iteration no. 10:	q = 21 	rq =     -1.64 	p = 10 	theta* = 4.8998 	z = 573.43   
+	Iteration no. 11:	q = 20 	rq =     -1.23 	p =  1 	theta* = 16.0605 	z = 553.70   
+	Iteration no. 12:	found optimum
+Phase I terminated.
+-------------------------------------------
+| Infeasible problem (z_I = 553.699 > 0). |
+-------------------------------------------
+
+
+
+Solving problem set 70, problem number 4...
+
+Executing phase I...
+	Iteration no. 1:	q =  1 	rq =   -577.00 	p = 28 	theta* = 8.3944 	z = 2399.45  
+	Iteration no. 2:	q =  4 	rq =   -336.35 	p = 34 	theta* = 0.9711 	z = 2072.83  
+	Iteration no. 3:	q =  2 	rq =   -184.07 	p = 32 	theta* = 4.9717 	z = 1157.67  
+	Iteration no. 4:	q =  5 	rq =   -285.04 	p = 27 	theta* = 0.5514 	z = 1000.49  
+	Iteration no. 5:	q =  6 	rq =    -79.72 	p =  5 	theta* = 0.9617 	z = 923.82   
+	Iteration no. 6:	q =  7 	rq =   -250.80 	p = 33 	theta* = 1.5346 	z = 538.95   
+	Iteration no. 7:	q =  5 	rq =   -120.90 	p = 30 	theta* = 0.0028 	z = 538.61   
+	Iteration no. 8:	q =  8 	rq =   -568.27 	p =  6 	theta* = 0.2734 	z = 383.27   
+	Iteration no. 9:	q =  9 	rq =    -72.63 	p = 25 	theta* = 2.6535 	z = 190.55   
+	Iteration no. 10:	q = 10 	rq =   -117.53 	p = 31 	theta* = 0.5875 	z = 121.50   
+	Iteration no. 11:	q = 11 	rq =    -70.82 	p = 29 	theta* = 0.8538 	z = 61.03    
+	Iteration no. 12:	q = 12 	rq =   -387.63 	p =  9 	theta* = 0.0611 	z = 37.33    
+	Iteration no. 13:	q = 13 	rq =   -147.36 	p = 26 	theta* = 0.2533 	z = -0.00    
+	Iteration no. 14:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[1.988 2.488 0.    2.221 ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  3 	rq =    -87.71 	p =  5 	theta* = 1.4149 	z = -643.20  
+	Iteration no. 2:	q =  9 	rq =    -54.29 	p =  1 	theta* = 0.8833 	z = -691.16  
+	Iteration no. 3:	q =  6 	rq =    -33.54 	p = 11 	theta* = 1.0927 	z = -727.81  
+	Iteration no. 4:	q = 14 	rq =    -93.35 	p =  4 	theta* = 0.2060 	z = -747.04  
+	Iteration no. 5:	q =  1 	rq =    -55.16 	p =  2 	theta* = 0.0535 	z = -749.99  
+	Iteration no. 6:	q =  5 	rq =     -9.50 	p =  1 	theta* = 0.0264 	z = -750.24  
+	Iteration no. 7:	q = 11 	rq =    -49.40 	p = 10 	theta* = 1.9481 	z = -846.49  
+	Iteration no. 8:	q =  1 	rq =    -39.36 	p =  8 	theta* = 0.2891 	z = -857.87  
+	Iteration no. 9:	q =  2 	rq =    -15.62 	p =  1 	theta* = 0.3530 	z = -863.38  
+	Iteration no. 10:	q = 15 	rq =     -1.14 	p =  7 	theta* = 7.5007 	z = -871.94  
+	Iteration no. 11:	q = 17 	rq =     -0.30 	p = 15 	theta* = 10.1877 	z = -874.94  
+	Iteration no. 12:	q =  8 	rq =    -12.05 	p =  2 	theta* = 0.1870 	z = -877.20  
+	Iteration no. 13:	q = 19 	rq =     -0.78 	p = 13 	theta* = 58.6100 	z = -923.05  
+	Iteration no. 14:	q = 10 	rq =     -3.47 	p =  9 	theta* = 0.1900 	z = -923.71  
+	Iteration no. 15:	q = 15 	rq =     -1.43 	p =  6 	theta* = 5.2425 	z = -931.18  
+	Iteration no. 16:	q =  1 	rq =     -1.61 	p = 12 	theta* = 0.7132 	z = -932.33  
+	Iteration no. 17:	q =  9 	rq =    -42.79 	p = 10 	theta* = 0.4284 	z = -950.66  
+	Iteration no. 18:	q = 13 	rq =    -16.64 	p =  1 	theta* = 0.6831 	z = -962.03  
+	Iteration no. 19:	q = 20 	rq =     -0.18 	p = 13 	theta* = 26.1612 	z = -966.83  
+	Iteration no. 20:	q = 22 	rq =     -0.49 	p = 15 	theta* = 52.5077 	z = -992.45  
+	Iteration no. 21:	q = 13 	rq =     -5.48 	p = 20 	theta* = 1.2027 	z = -999.04  
+	Iteration no. 22:	q =  6 	rq =     -3.07 	p =  5 	theta* = 0.7770 	z = -1001.42 
+	Iteration no. 23:	q = 18 	rq =     -0.03 	p = 11 	theta* = 67.4061 	z = -1003.43 
+	Iteration no. 24:	q =  5 	rq =     -1.23 	p = 14 	theta* = 1.0921 	z = -1004.77 
+	Iteration no. 25:	q = 21 	rq =     -0.15 	p =  6 	theta* = 134.4030 	z = -1025.16 
+	Iteration no. 26:	q = 14 	rq =     -7.88 	p =  9 	theta* = 2.4871 	z = -1044.75 
+	Iteration no. 27:	q = 23 	rq =     -0.97 	p = 19 	theta* = 209.0430 	z = -1246.79 
+	Iteration no. 28:	q =  1 	rq =   -168.33 	p =  5 	theta* = 0.0187 	z = -1249.94 
+	Iteration no. 29:	q = 15 	rq =     -0.79 	p = 13 	theta* = 548.5776 	z = -1680.65 
+	Iteration no. 30:	q = 16 	rq =     -1.63 	p =  3 	theta* = 118.2097 	z = -1873.12 
+	Iteration no. 31:	q = 12 	rq =    -87.36 	p =  1 	theta* = 2.5923 	z = -2099.59 
+	Iteration no. 32:	q = 19 	rq =     -2.11 	p = 14 	theta* = 55.8074 	z = -2217.40 
+	Iteration no. 33:	q = 20 	rq =     -3.55 	p = 12 	theta* = 221.0000 	z = -3002.00 
+	Iteration no. 34:	q =  6 	rq =    -18.68 	p =  8 	theta* = 92.8889 	z = -4737.33 
+	Iteration no. 35:	identified unlimited problem
+Phase II terminated.
+
+----------------------------------------------------------------------------------
+| Unlimited problem. Found feasible ray d =                                      |
+| [0.    0.    0.    0.    ... 3.111 9.222 9.111 1.   ]                          |
+| from x =                                                                       |
+| [   0.       0.       0.       0.    ... 1901.889 6732.778 6899.889    0.   ]. |
+----------------------------------------------------------------------------------
+14 iterations in phase I, 35 iterations in phase II (49 total).
+
+
+
+
+Solving problem set 70, problem number 4...
+
+Executing phase I...
+	Iteration no. 1:	q =  5 	rq =   -638.00 	p = 28 	theta* = 7.2683 	z = 2605.83  
+	Iteration no. 2:	q = 14 	rq =   -354.41 	p = 31 	theta* = 1.3205 	z = 2137.82  
+	Iteration no. 3:	q =  4 	rq =   -395.38 	p = 27 	theta* = 1.2442 	z = 1645.87  
+	Iteration no. 4:	q = 11 	rq =   -443.40 	p = 26 	theta* = 1.3725 	z = 1037.32  
+	Iteration no. 5:	q =  3 	rq =   -440.29 	p = 29 	theta* = 0.1694 	z = 962.73   
+	Iteration no. 6:	q = 12 	rq =   -458.93 	p = 25 	theta* = 0.4549 	z = 753.98   
+	Iteration no. 7:	q = 13 	rq =  -1203.10 	p = 34 	theta* = 0.4923 	z = 161.69   
+	Iteration no. 8:	q =  2 	rq =   -135.65 	p = 32 	theta* = 0.4778 	z = 96.88    
+	Iteration no. 9:	q =  7 	rq =   -149.16 	p = 13 	theta* = 0.5226 	z = 18.92    
+	Iteration no. 10:	q =  8 	rq =   -180.18 	p = 33 	theta* = 0.0541 	z = 9.17     
+	Iteration no. 11:	q = 10 	rq =    -31.45 	p = 30 	theta* = 0.2915 	z = -0.00    
+	Iteration no. 12:	found optimum
+Phase I terminated.
+Found initial BFS at x = 
+[0.    1.224 1.852 0.503 ... 0.    0.    0.    0.   ].
+
+Executing phase II...
+	Iteration no. 1:	q =  6 	rq =    -99.45 	p =  8 	theta* = 0.3345 	z = -832.69  
+	Iteration no. 2:	q = 13 	rq =   -214.55 	p =  4 	theta* = 0.1404 	z = -862.81  
+	Iteration no. 3:	q = 22 	rq =     -1.26 	p =  7 	theta* = 12.6130 	z = -878.66  
+	Iteration no. 4:	q =  4 	rq =   -439.93 	p = 10 	theta* = 0.0173 	z = -886.29  
+	Iteration no. 5:	q =  8 	rq =    -65.02 	p =  4 	theta* = 0.0951 	z = -892.47  
+	Iteration no. 6:	q =  7 	rq =   -218.26 	p =  6 	theta* = 0.0912 	z = -912.37  
+	Iteration no. 7:	q =  1 	rq =    -82.10 	p =  7 	theta* = 0.1510 	z = -924.77  
+	Iteration no. 8:	q =  9 	rq =    -58.04 	p = 12 	theta* = 0.4354 	z = -950.04  
+	Iteration no. 9:	q = 24 	rq =     -0.70 	p =  5 	theta* = 81.1675 	z = -1007.17 
+	Iteration no. 10:	q = 12 	rq =    -13.50 	p =  9 	theta* = 0.5857 	z = -1015.08 
+	Iteration no. 11:	q = 15 	rq =     -0.59 	p =  2 	theta* = 12.6267 	z = -1022.49 
+	Iteration no. 12:	q = 20 	rq =     -0.42 	p =  8 	theta* = 59.8420 	z = -1047.54 
+	Iteration no. 13:	q =  2 	rq =     -4.06 	p = 15 	theta* = 0.8225 	z = -1050.88 
+	Iteration no. 14:	q =  9 	rq =     -8.82 	p =  1 	theta* = 0.6090 	z = -1056.25 
+	Iteration no. 15:	q = 19 	rq =     -0.66 	p = 12 	theta* = 69.6710 	z = -1102.47 
+	Iteration no. 16:	q =  1 	rq =    -17.72 	p =  2 	theta* = 1.7417 	z = -1133.34 
+	Iteration no. 17:	q = 17 	rq =     -0.93 	p =  1 	theta* = 99.9639 	z = -1226.75 
+	Iteration no. 18:	q = 23 	rq =     -1.27 	p = 13 	theta* = 16.9321 	z = -1248.24 
+	Iteration no. 19:	q = 18 	rq =     -0.71 	p = 14 	theta* = 586.4581 	z = -1665.54 
+	Iteration no. 20:	q = 21 	rq =     -1.93 	p = 11 	theta* = 322.0301 	z = -2286.81 
+	Iteration no. 21:	q =  1 	rq =    -87.40 	p =  9 	theta* = 12.3664 	z = -3367.58 
+	Iteration no. 22:	q = 16 	rq =     -3.84 	p =  1 	theta* = 13974.0000 	z = -57050.00
+	Iteration no. 23:	identified unlimited problem
+Phase II terminated.
+
+------------------------------------------------------------------
+| Unlimited problem. Found feasible ray d =                      |
+| [ 0.  0.  1.  0. ... 21. 95. 15. 63.]                          |
+| from x =                                                       |
+| [    0.     0.   815.     0. ... 16416. 76448. 11508. 50509.]. |
+------------------------------------------------------------------
+12 iterations in phase I, 23 iterations in phase II (35 total).
+
+
+
+

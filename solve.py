@@ -65,7 +65,8 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     pass
 
 
-print("Solving problem set {}, problem number {}...".format(num, prob), end="\n\n")
+print("Solving problem set {}, problem number {}, with {} rule..."
+        .format(num, prob, "bland" if rule == 0 else "minimal reduced cost"), end="\n\n")
 
 simplex.simplex(A, b, c, rule)
 

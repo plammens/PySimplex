@@ -50,7 +50,9 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int):
 
     assert ext_I == 0
     if round(z_I, 6) > 0:
-        print_boxed("Infeasible problem (z_I = {:.6g} > 0).".format(z_I))
+        print("\n")
+        print_boxed("Unfeasible problem (z_I = {:.6g} > 0).".format(z_I))
+        print("{} iterations in phase I.".format(it_I), end='\n\n')
         return 2, None, None
     if any(j not in range(n) for j in basic_init):
         raise NotImplementedError("Artificial variables in basis")
@@ -65,7 +67,10 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int):
     print("Phase II terminated.\n")
 
     if ext == 0:
-        print_boxed("Found optimal solution at x =\n{}.\n\nOptimal cost: {}.".format(x, z))
+        print_boxed("Found optimal solution at x =\n{}.\n\n".format(x) +
+                    "Basic indexes: {}\n".format(basic) +
+                    "Nonbasic indexes: {}\n\n".format(set(range(n)) - basic) +
+                    "Optimal cost: {}.".format(z))
     elif ext == 1:
         print_boxed("Unlimited problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
 
@@ -103,6 +108,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
         # Calculate inverse:
         B_inv = inv(B_mat)
 
+
         """Optimality test"""
         temp_product = c[B] * B_inv  # Store product for efficiency
 
@@ -122,26 +128,29 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
             if r_q >= 0:
                 optimum = True
         else:
-            raise ValueError
+            raise ValueError("Invalid rule for variable selection")
 
         if optimum:
             print("\tfound optimum")
             return 0, x, basic, z, None, it  # Found optimal solution
+
 
         """Feasible basic direction"""
         d = np.array([trunc(np.asscalar(-B_inv[B.index(j), :] * A[:, q]))
                       if j in basic else 1 if j == q else 0
                       for j in range(n)])
 
+
         """Maximum step length"""
         neg = [(-x[i] / d[i], i) for i in basic if d[i] < 0]
 
         if len(neg) == 0:
             print("\tidentified unlimited problem")
-            return 1, x, basic, None, d, it  # Flag problem as unlimited
+            return 1, x, basic,  None, d, it  # Flag problem as unlimited and return ray
 
         buffer = min(neg, key=(lambda tuple_: tuple_[0]))
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
+
 
         """Variable updates"""
         x = np.round(x + theta * d, 10)  # Update all variables
@@ -151,6 +160,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
 
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
+
 
         """Print status update"""
         print(
