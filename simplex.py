@@ -110,6 +110,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
 
 
         """Optimality test"""
+        r_q, q  = 0, 0  # Initialize reduced cost and entering var. index
         temp_product = c[B] * B_inv  # Store product for efficiency
 
         if rule == 0:
@@ -124,7 +125,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
         elif rule == 1:
             optimum = False
 
-            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N], key=(lambda x: x[0]))
+            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N], key=(lambda tup: tup[0]))
             if r_q >= 0:
                 optimum = True
         else:

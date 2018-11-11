@@ -14,6 +14,7 @@ num = args.num
 prob = args.prob
 rule = 0 if args.rule == "bland" else 1
 
+
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
         while True:

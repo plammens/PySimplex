@@ -1,4 +1,4 @@
-Solving problem set 41, problem number 1...
+Solving problem set 41, problem number 1, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -130.00 	p = 24 	theta* = 0.3600 	z = 3545.20  
@@ -50,6 +50,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
 |                                                                        |
+| Basic indexes: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indexes: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+|                                                                        |
 | Optimal cost: -279.29040729186545.                                     |
 --------------------------------------------------------------------------
 19 iterations in phase I, 19 iterations in phase II (38 total).
@@ -57,7 +60,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 1...
+Solving problem set 41, problem number 1, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q = 13 	rq =   -540.00 	p = 24 	theta* = 0.1059 	z = 3534.82  
@@ -93,6 +96,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
 |                                                                        |
+| Basic indexes: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indexes: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+|                                                                        |
 | Optimal cost: -279.2904072759005.                                      |
 --------------------------------------------------------------------------
 12 iterations in phase I, 10 iterations in phase II (22 total).
@@ -100,7 +106,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 2...
+Solving problem set 41, problem number 2, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -498.00 	p = 27 	theta* = 8.2000 	z = 3249.40  
@@ -168,7 +174,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 2...
+Solving problem set 41, problem number 2, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q = 10 	rq =   -609.00 	p = 31 	theta* = 6.4043 	z = 3432.81  
@@ -216,7 +222,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 3...
+Solving problem set 41, problem number 3, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  3 	rq =   -211.00 	p = 22 	theta* = 0.4906 	z = 2666.49  
@@ -261,6 +267,9 @@ Phase II terminated.
 | Found optimal solution at x =                                                          |
 | [7.325e-02 7.947e-01 2.326e+00 0.000e+00 ... 0.000e+00 0.000e+00 0.000e+00 2.470e+02]. |
 |                                                                                        |
+| Basic indexes: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
+| Nonbasic indexes: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
+|                                                                                        |
 | Optimal cost: -1210.7235588791593.                                                     |
 ------------------------------------------------------------------------------------------
 21 iterations in phase I, 10 iterations in phase II (31 total).
@@ -268,7 +277,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 3...
+Solving problem set 41, problem number 3, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  7 	rq =   -486.00 	p = 22 	theta* = 0.5098 	z = 2522.24  
@@ -301,6 +310,9 @@ Phase II terminated.
 | Found optimal solution at x =                                                          |
 | [7.325e-02 7.947e-01 2.326e+00 0.000e+00 ... 0.000e+00 0.000e+00 0.000e+00 2.470e+02]. |
 |                                                                                        |
+| Basic indexes: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
+| Nonbasic indexes: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
+|                                                                                        |
 | Optimal cost: -1210.7235588158378.                                                     |
 ------------------------------------------------------------------------------------------
 12 iterations in phase I, 7 iterations in phase II (19 total).
@@ -308,7 +320,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 4...
+Solving problem set 41, problem number 4, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -334.00 	p = 30 	theta* = 0.0435 	z = 1127.48  
@@ -326,13 +338,17 @@ Executing phase I...
 	Iteration no. 13:	q = 21 	rq =     -0.95 	p = 14 	theta* = 1.0000 	z = 824.25   
 	Iteration no. 14:	found optimum
 Phase I terminated.
+
+
 ------------------------------------------
-| Infeasible problem (z_I = 824.25 > 0). |
+| Unfeasible problem (z_I = 824.25 > 0). |
 ------------------------------------------
+14 iterations in phase I.
 
 
 
-Solving problem set 41, problem number 4...
+
+Solving problem set 41, problem number 4, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q = 10 	rq =   -394.00 	p = 30 	theta* = 0.0769 	z = 1111.69  
@@ -346,13 +362,17 @@ Executing phase I...
 	Iteration no. 9:	q = 21 	rq =     -0.95 	p = 14 	theta* = 1.0000 	z = 824.25   
 	Iteration no. 10:	found optimum
 Phase I terminated.
+
+
 ------------------------------------------
-| Infeasible problem (z_I = 824.25 > 0). |
+| Unfeasible problem (z_I = 824.25 > 0). |
 ------------------------------------------
+10 iterations in phase I.
 
 
 
-Solving problem set 70, problem number 1...
+
+Solving problem set 70, problem number 1, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -144.00 	p = 21 	theta* = 0.6494 	z = 2081.49  
@@ -396,6 +416,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
 |                                                                        |
+| Basic indexes: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indexes: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+|                                                                        |
 | Optimal cost: -471.5280570075495.                                      |
 --------------------------------------------------------------------------
 19 iterations in phase I, 11 iterations in phase II (30 total).
@@ -403,7 +426,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 1...
+Solving problem set 70, problem number 1, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q = 11 	rq =   -417.00 	p = 21 	theta* = 0.6098 	z = 1920.73  
@@ -445,6 +468,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
 |                                                                        |
+| Basic indexes: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indexes: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+|                                                                        |
 | Optimal cost: -471.528057003315.                                       |
 --------------------------------------------------------------------------
 15 iterations in phase I, 13 iterations in phase II (28 total).
@@ -452,7 +478,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 2...
+Solving problem set 70, problem number 2, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -171.00 	p = 28 	theta* = 1.3191 	z = 2461.43  
@@ -497,6 +523,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
 |                                                                        |
+| Basic indexes: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indexes: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+|                                                                        |
 | Optimal cost: -794.2416133763497.                                      |
 --------------------------------------------------------------------------
 13 iterations in phase I, 18 iterations in phase II (31 total).
@@ -504,7 +533,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 2...
+Solving problem set 70, problem number 2, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  9 	rq =   -538.00 	p = 28 	theta* = 0.8052 	z = 2253.81  
@@ -549,6 +578,9 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
 |                                                                        |
+| Basic indexes: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indexes: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+|                                                                        |
 | Optimal cost: -794.2416134520921.                                      |
 --------------------------------------------------------------------------
 12 iterations in phase I, 19 iterations in phase II (31 total).
@@ -556,7 +588,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 3...
+Solving problem set 70, problem number 3, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -399.00 	p = 21 	theta* = 0.3068 	z = 1478.58  
@@ -575,13 +607,17 @@ Executing phase I...
 	Iteration no. 14:	q = 20 	rq =     -1.23 	p =  1 	theta* = 16.0605 	z = 553.70   
 	Iteration no. 15:	found optimum
 Phase I terminated.
+
+
 -------------------------------------------
-| Infeasible problem (z_I = 553.699 > 0). |
+| Unfeasible problem (z_I = 553.699 > 0). |
 -------------------------------------------
+15 iterations in phase I.
 
 
 
-Solving problem set 70, problem number 3...
+
+Solving problem set 70, problem number 3, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  2 	rq =   -408.00 	p = 30 	theta* = 0.9767 	z = 1202.49  
@@ -597,13 +633,17 @@ Executing phase I...
 	Iteration no. 11:	q = 20 	rq =     -1.23 	p =  1 	theta* = 16.0605 	z = 553.70   
 	Iteration no. 12:	found optimum
 Phase I terminated.
+
+
 -------------------------------------------
-| Infeasible problem (z_I = 553.699 > 0). |
+| Unfeasible problem (z_I = 553.699 > 0). |
 -------------------------------------------
+12 iterations in phase I.
 
 
 
-Solving problem set 70, problem number 4...
+
+Solving problem set 70, problem number 4, with bland rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  1 	rq =   -577.00 	p = 28 	theta* = 8.3944 	z = 2399.45  
@@ -673,7 +713,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 4...
+Solving problem set 70, problem number 4, with minimal reduced cost rule...
 
 Executing phase I...
 	Iteration no. 1:	q =  5 	rq =   -638.00 	p = 28 	theta* = 7.2683 	z = 2605.83  
