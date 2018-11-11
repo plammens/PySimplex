@@ -1,5 +1,10 @@
 """
-Luis Sierra & Paolo Lammens -- FME-UPC
+~Mathematical Programming~
+Simplex implementation assignment.
+
+Luis Sierra & Paolo Lammens -- GM FME-UPC
+luis.sierra.muntane@estudiant.upc.edu
+paolo.matias.lammens@estudiant.upc.edu
 """
 
 import numpy as np
@@ -11,9 +16,17 @@ np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Pr
 epsilon = 10**(-10)  # Global truncation threshold
 
 
+
 def simplex(A: matrix, b: np.array, c: np.array, rule: int):
     """
     Outer "wrapper" for executing the simplex method: phase I and phase II.
+
+    :param A: constraint matrix
+    :param b: independent terms in constraints
+    :param c: costs vector
+    :param rule: variable selection rule (e.g. Bland's)
+
+    This function prints the outcome of each step to stdout.
     """
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
@@ -90,6 +103,15 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
     """
     This function executes the simplex algorithm iteratively until it
     terminates. It is the core function of this project.
+
+    :param A: constraint matrix
+    :param c: costs vector
+    :param x: initial BFS
+    :param basic: initial basic index set
+    :param rule: variable selection rule (e.g. Bland's)
+    :return: a tuple consisting of the exit code, the value of x, basic index set,
+    optimal cost (if optimum has been found), and BFD corresponding to
+    feasible ray (if unlimited problem)
     """
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
@@ -178,7 +200,10 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
 
 
 def print_boxed(msg: str) -> None:
-    """Utility for printing pretty boxes."""
+    """
+    Utility for printing pretty boxes.
+    :param msg: message to be printed
+    """
 
     lines = msg.splitlines()
     max_len = max(len(line) for line in lines)
@@ -192,5 +217,9 @@ def print_boxed(msg: str) -> None:
     print('-' * (max_len + 4))
 
 
+
 def trunc(x: float) -> float:
+    """
+    Returns 0 if x is smaller (in absolute value) than a certain global constant.
+    """
     return x if abs(x) >= epsilon else 0

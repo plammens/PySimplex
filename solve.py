@@ -1,3 +1,10 @@
+"""
+This script takes three arguments (num, prob, rule). It parses the data
+from the corresponding problem (problem set `num`, problem number `prob`)
+and executes the simplex algorithm from the `simplex` module.
+"""
+
+
 import argparse as arg
 import sys
 import re
@@ -67,7 +74,7 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
 
 print("Solving problem set {}, problem number {}, with {} rule..."
-        .format(num, prob, "bland" if rule == 0 else "minimal reduced cost"), end="\n\n")
+        .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
 
 simplex.simplex(A, b, c, rule)
 
