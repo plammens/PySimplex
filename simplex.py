@@ -124,8 +124,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
 
     z = np.dot(c, x)
 
-    it = 1
-    while True:
+    it = 1  # Iteration number
+    while True if rule == 0 else (it <= 500):  # Ensure procedure terminates (for the min reduced cost rule)
         print("\tIteration no. {}:".format(it), end='')
 
         B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
@@ -197,6 +197,10 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
         )
 
         it += 1
+
+
+    # If loop goes over max iterations (500):
+    raise TimeoutError("Iterations maxed out (probably due to an endless loop)")
 
 
 def print_boxed(msg: str) -> None:
