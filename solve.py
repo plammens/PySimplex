@@ -1,5 +1,5 @@
 """
-This script takes three arguments (upon being called, from stdin): num, prob, rule.
+This script takes three arguments (upon being called, from stdin): num, prob[, --rule].
 It parses the data from the corresponding problem (problem set `num`,
 problem number `prob`) and executes the simplex algorithm from the `simplex` module
 with that data.
@@ -12,15 +12,18 @@ import re
 import numpy as np
 import simplex
 
+
+"""Parse system arguments"""
+
 def prob_set_num_type(x):
     x = int(x)
-    if x not in range(1, 80):
+    if x - 1 not in range(79):
         raise arg.ArgumentError("Invalid problem set number (should be in [1-79])")
     return x
 
 def prob_num_type(x):
     x = int(x)
-    if x not in range(1, 5):
+    if x - 1 not in range(4):
         raise arg.ArgumentError("Invalid problem number (should be in [1-4])")
     return x
 
@@ -38,6 +41,9 @@ num = args.num
 prob = args.prob
 rule = 0 if args.rule == "bland" else 1
 
+
+
+"""Read corresponding problem"""
 
 with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
@@ -89,9 +95,10 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     b = parse_mat()
 
 
+
+"""Run simplex method"""
+
 print("Solving problem set {}, problem number {}, with {} rule..."
         .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
-
 simplex.simplex(A, b, c, rule)
-
 print("\n\n")
