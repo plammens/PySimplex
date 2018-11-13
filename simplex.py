@@ -17,7 +17,7 @@ epsilon = 10**(-10)  # Global truncation threshold
 
 
 
-def simplex(A: matrix, b: np.array, c: np.array, rule: int):
+def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0):
     """
     Outer "wrapper" for executing the simplex method: phase I and phase II.
 
@@ -98,7 +98,7 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int):
     return ext, x, z, d
 
 
-def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int) \
+def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0) \
         -> (int, np.array, set, float, np.array):
     """
     This function executes the simplex algorithm iteratively until it
