@@ -1,7 +1,8 @@
 """
-This script takes three arguments (num, prob, rule). It parses the data
-from the corresponding problem (problem set `num`, problem number `prob`)
-and executes the simplex algorithm from the `simplex` module.
+This script takes three arguments (upon being called, from stdin): num, prob, rule.
+It parses the data from the corresponding problem (problem set `num`,
+problem number `prob`) and executes the simplex algorithm from the `simplex` module
+with that data.
 """
 
 
@@ -11,10 +12,26 @@ import re
 import numpy as np
 import simplex
 
+def prob_set_num_type(x):
+    x = int(x)
+    if x not in range(1, 80):
+        raise arg.ArgumentError("Invalid problem set number (should be in [1-79])")
+    return x
+
+def prob_num_type(x):
+    x = int(x)
+    if x not in range(1, 5):
+        raise arg.ArgumentError("Invalid problem number (should be in [1-4])")
+    return x
+
 argparser = arg.ArgumentParser()
-argparser.add_argument("num", type=int, default=1)
-argparser.add_argument("prob", type=int, default=1)
-argparser.add_argument("rule", type=str, default="bland")
+argparser.add_argument("num", type=prob_set_num_type, default=1,
+                       help="problem set number within 1-79")
+argparser.add_argument("prob", type=prob_num_type, default=1,
+                       help="problem number within 1-4")
+argparser.add_argument("--rule", type=str, default="bland",
+                       choices=["bland", "minrc"],
+                       help="pivoting rule for simplex algorithm")
 args = argparser.parse_args(sys.argv[1:])
 
 num = args.num
@@ -70,7 +87,6 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
     skip_to(r"b=")
     b = parse_mat()
-    pass
 
 
 print("Solving problem set {}, problem number {}, with {} rule..."
