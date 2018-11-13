@@ -117,56 +117,56 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
 
     assert c.shape == (n,) and x.shape == (n,)
-    assert len(basic) == m and \
+    assert isinstance(basic, set) and len(basic) == m and \
            all(i in range(n) for i in basic)  # Make sure that basic is a valid base
 
-    nonbasic = set(range(n)) - basic  # Nonbasic index set
-    B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
+    B, N = list(basic), list(set(range(n)) - basic)  # Basic /nonbasic index lists
+    del basic  # Let's work in hygienic conditions
     B_inv = inv(A[:, B])  # Calculate inverse of basic matrix (`A[:, B]`)
 
     z = np.dot(c, x)  # Value of obj. function
+
 
     it = 1  # Iteration number
     while it <= 500:  # Ensure procedure terminates (for the min reduced cost rule)
         print("\tIteration no. {}:".format(it), end='')
 
         """Optimality test"""
-        r_q, q  = 0, 0  # Initialize reduced cost and entering var. index
-        temp_product = c[B] * B_inv  # Store product for efficiency
+        r_q, q  = None, None  # Initialize reduced cost and entering var. index
+        p = c[B] * B_inv  # Store product for efficiency
 
-        if rule == 0:
+        if rule == 0:  # Bland rule
             optimum = True
             for q in N:  # Read in lexicographical index order
-                r_q = np.asscalar(c[q] - temp_product * A[:, q])
+                r_q = np.asscalar(c[q] - p * A[:, q])
                 if r_q < 0:
                     optimum = False
-                    break
-        elif rule == 1:
-            optimum = False
-            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N],
+                    break  # The loop is exited with the first negative r.c.
+
+        elif rule == 1:  # Minimal reduced cost rule
+            r_q, q = min([(np.asscalar(c[q] - p * A[:, q]), q) for q in N],
                          key=(lambda tup: tup[0]))
-            if r_q >= 0:
-                optimum = True
+            optimum = (r_q >= 0)
         else:
             raise ValueError("Invalid pivoting rule")
 
         if optimum:
             print("\tfound optimum")
-            return 0, x, basic, z, None, it  # Found optimal solution
+            return 0, x, set(B), z, None, it  # Found optimal solution
 
 
         """Feasible basic direction"""
         d = np.array([trunc(np.asscalar(-B_inv[B.index(j), :] * A[:, q]))
-                      if j in basic else 1 if j == q else 0
+                      if j in B else 1 if j == q else 0
                       for j in range(n)])
 
 
         """Maximum step length"""
-        neg = [(-x[i] / d[i], i) for i in basic if d[i] < 0]
+        neg = [(-x[i] / d[i], i) for i in B if d[i] < 0]
 
         if len(neg) == 0:
             print("\tidentified unlimited problem")
-            return 1, x, basic,  None, d, it  # Flag problem as unlimited and return ray
+            return 1, x, set(B),  None, d, it  # Flag problem as unlimited and return ray
 
         buffer = min(neg, key=(lambda tuple_: tuple_[0]))
         theta, p = buffer[0], buffer[1]  # Get theta and index of exiting basic variable
@@ -184,10 +184,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
             B_inv[i, :] -= d[B[i]]/d[p] * B_inv[idx, :]
         B_inv[idx, :] /= -d[p]
 
-        basic = basic - {p} | {q}  # Update basis set
-        nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
-
-        B, N = list(basic), list(nonbasic)
+        B[idx] = q  # Update basic index list
+        N[N.index(q)] = p  # Update nonbasic index list
 
         """Print status update"""
         print(
