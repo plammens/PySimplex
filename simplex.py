@@ -121,20 +121,14 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
            all(i in range(n) for i in basic)  # Make sure that basic is a valid base
 
     nonbasic = set(range(n)) - basic  # Nonbasic index set
+    B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
+    B_inv = inv(A[:, B])  # Calculate inverse of basic matrix (`A[:, B]`)
 
-    z = np.dot(c, x)
+    z = np.dot(c, x)  # Value of obj. function
 
     it = 1  # Iteration number
-    while True if rule == 0 else (it <= 500):  # Ensure procedure terminates (for the min reduced cost rule)
+    while it <= 500:  # Ensure procedure terminates (for the min reduced cost rule)
         print("\tIteration no. {}:".format(it), end='')
-
-        B, N = list(basic), list(nonbasic)  # Convert to list (from set) to simplify use as indexing expr.
-
-        B_mat = A[:, B]  # Get basic matrix (all rows of A, columns specified by basic)
-
-        # Calculate inverse:
-        B_inv = inv(B_mat)
-
 
         """Optimality test"""
         r_q, q  = 0, 0  # Initialize reduced cost and entering var. index
@@ -142,21 +136,19 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
 
         if rule == 0:
             optimum = True
-
             for q in N:  # Read in lexicographical index order
                 r_q = np.asscalar(c[q] - temp_product * A[:, q])
                 if r_q < 0:
                     optimum = False
                     break
-
         elif rule == 1:
             optimum = False
-
-            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N], key=(lambda tup: tup[0]))
+            r_q, q = min([(np.asscalar(c[q] - temp_product * A[:, q]), q) for q in N],
+                         key=(lambda tup: tup[0]))
             if r_q >= 0:
                 optimum = True
         else:
-            raise ValueError("Invalid rule for variable selection")
+            raise ValueError("Invalid pivoting rule")
 
         if optimum:
             print("\tfound optimum")
@@ -186,9 +178,16 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
 
         z = trunc(z + theta * r_q)  # Update obj. function value
 
+        # Update inverse:
+        idx = B.index(p)
+        for i in set(range(m)) - {idx}:
+            B_inv[i, :] -= d[B[i]]/d[p] * B_inv[idx, :]
+        B_inv[idx, :] /= -d[p]
+
         basic = basic - {p} | {q}  # Update basis set
         nonbasic = nonbasic - {q} | {p}  # Update nonbasic set
 
+        B, N = list(basic), list(nonbasic)
 
         """Print status update"""
         print(
