@@ -41,7 +41,7 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.arra
         raise ValueError("Incompatible dimensions: c has shape {}, expected {}.".format(c.shape, (n,)))
 
 
-    "Check full rank matrix"
+    """Check full rank matrix"""
     if not np.linalg.matrix_rank(A) == m:
         # Remove ld rows:
         A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i, :], np.zeros(n))], :]
