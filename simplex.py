@@ -64,7 +64,7 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.arra
     # ^ Exit code, initial BFS, basis, z_I, d (not needed) and no. of iterations
     print("Phase I terminated.")
 
-    assert ext_I == 0  # assert that phase I has an optimal solution (and is not unlimited)
+    assert ext_I == 0  # assert that phase I has an optimal solution (and is not unbounded)
     if z_I > 0:
         print("\n")
         print_boxed("Unfeasible problem (z_I = {:.6g} > 0).".format(z_I))
@@ -90,7 +90,7 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.arra
                     "Nonbasic indices: {}\n\n".format(set(range(n)) - basic) +
                     "Optimal cost: {}.".format(z))
     elif ext == 1:
-        print_boxed("Unlimited problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
+        print_boxed("Unbounded problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
 
     print("{} iterations in phase I, {} iterations in phase II ({} total).".format(it_I, it_II, it_I + it_II),
           end='\n\n')
@@ -111,7 +111,7 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
     :param rule: variable selection rule (e.g. Bland's)
     :return: a tuple consisting of the exit code, the value of x, basic index set,
     optimal cost (if optimum has been found), and BFD corresponding to
-    feasible ray (if unlimited problem)
+    feasible ray (if unbounded problem)
     """
 
     m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
@@ -167,8 +167,8 @@ def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0)
         neg = [(-x[B[i]] / d[B[i]], i) for i in range(m) if d[B[i]] < 0]
 
         if len(neg) == 0:
-            print("\tidentified unlimited problem")
-            return 1, x, set(B),  None, d, it  # Flag problem as unlimited and return ray
+            print("\tidentified unbounded problem")
+            return 1, x, set(B),  None, d, it  # Flag problem as unbounded and return ray
 
         # Get theta and index (in basis) of exiting basic variable:
         theta, p = min(neg, key=(lambda tup: tup[0]))

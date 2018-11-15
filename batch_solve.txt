@@ -50,8 +50,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
 |                                                                        |
-| Basic indexes: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
-| Nonbasic indexes: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+| Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
 |                                                                        |
 | Optimal cost: -279.2904072977688.                                      |
 --------------------------------------------------------------------------
@@ -96,8 +96,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
 |                                                                        |
-| Basic indexes: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
-| Nonbasic indexes: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+| Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
 |                                                                        |
 | Optimal cost: -279.2904072977688.                                      |
 --------------------------------------------------------------------------
@@ -160,11 +160,11 @@ Executing phase II...
 	Iteration no. 27:	q =  1 	rq =    -26.19 	B[p] =  1 	theta* = 7.9914 	z = -2531.17 
 	Iteration no. 28:	q =  5 	rq =     -0.21 	B[p] =  5 	theta* = 51.8842 	z = -2542.09 
 	Iteration no. 29:	q =  9 	rq =   -138.06 	B[p] =  9 	theta* = 10.5882 	z = -4003.89 
-	Iteration no. 30:	identified unlimited problem
+	Iteration no. 30:	identified unbounded problem
 Phase II terminated.
 
 ----------------------------------------------------------------------------------
-| Unlimited problem. Found feasible ray d =                                      |
+| Unbounded problem. Found feasible ray d =                                      |
 | [ 0.     0.     0.     0.    ...  4.667  8.667 14.333  1.   ]                  |
 | from x =                                                                       |
 | [   0.       0.       0.       0.    ... 3370.039 5518.51  8575.667    0.   ]. |
@@ -208,11 +208,11 @@ Executing phase II...
 	Iteration no. 13:	q = 21 	rq =     -1.41 	B[p] = 21 	theta* = 708.6187 	z = -2531.17 
 	Iteration no. 14:	q =  9 	rq =   -136.96 	B[p] =  9 	theta* = 5.0718 	z = -3225.83 
 	Iteration no. 15:	q =  5 	rq =     -7.27 	B[p] =  5 	theta* = 107.0686 	z = -4003.89 
-	Iteration no. 16:	identified unlimited problem
+	Iteration no. 16:	identified unbounded problem
 Phase II terminated.
 
 ----------------------------------------------------------------------------------
-| Unlimited problem. Found feasible ray d =                                      |
+| Unbounded problem. Found feasible ray d =                                      |
 | [ 0.     0.     0.     0.    ...  4.667  8.667 14.333  1.   ]                  |
 | from x =                                                                       |
 | [   0.       0.       0.       0.    ... 3370.039 5518.51  8575.667    0.   ]. |
@@ -267,8 +267,8 @@ Phase II terminated.
 | Found optimal solution at x =                                                          |
 | [7.325e-02 7.947e-01 2.326e+00 0.000e+00 ... 0.000e+00 0.000e+00 0.000e+00 2.470e+02]. |
 |                                                                                        |
-| Basic indexes: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
-| Nonbasic indexes: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
+| Basic indices: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
+| Nonbasic indices: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
 |                                                                                        |
 | Optimal cost: -1210.72355882244.                                                       |
 ------------------------------------------------------------------------------------------
@@ -310,8 +310,8 @@ Phase II terminated.
 | Found optimal solution at x =                                                          |
 | [7.325e-02 7.947e-01 2.326e+00 0.000e+00 ... 0.000e+00 0.000e+00 0.000e+00 2.470e+02]. |
 |                                                                                        |
-| Basic indexes: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
-| Nonbasic indexes: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
+| Basic indices: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
+| Nonbasic indices: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
 |                                                                                        |
 | Optimal cost: -1210.7235588224398.                                                     |
 ------------------------------------------------------------------------------------------
@@ -416,8 +416,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
 |                                                                        |
-| Basic indexes: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
-| Nonbasic indexes: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+| Basic indices: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indices: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
 |                                                                        |
 | Optimal cost: -471.5280570076609.                                      |
 --------------------------------------------------------------------------
@@ -468,8 +468,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
 |                                                                        |
-| Basic indexes: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
-| Nonbasic indexes: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+| Basic indices: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indices: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
 |                                                                        |
 | Optimal cost: -471.5280570076608.                                      |
 --------------------------------------------------------------------------
@@ -523,8 +523,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
 |                                                                        |
-| Basic indexes: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
-| Nonbasic indexes: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+| Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
 |                                                                        |
 | Optimal cost: -794.2416134199493.                                      |
 --------------------------------------------------------------------------
@@ -578,8 +578,8 @@ Phase II terminated.
 | Found optimal solution at x =                                          |
 | [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
 |                                                                        |
-| Basic indexes: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
-| Nonbasic indexes: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+| Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
 |                                                                        |
 | Optimal cost: -794.24161341995.                                        |
 --------------------------------------------------------------------------
@@ -699,11 +699,11 @@ Executing phase II...
 	Iteration no. 32:	q = 19 	rq =     -2.11 	B[p] = 19 	theta* = 55.8074 	z = -2217.40 
 	Iteration no. 33:	q = 20 	rq =     -3.55 	B[p] = 20 	theta* = 221.0000 	z = -3002.00 
 	Iteration no. 34:	q =  6 	rq =    -18.68 	B[p] =  6 	theta* = 92.8889 	z = -4737.33 
-	Iteration no. 35:	identified unlimited problem
+	Iteration no. 35:	identified unbounded problem
 Phase II terminated.
 
 ----------------------------------------------------------------------------------
-| Unlimited problem. Found feasible ray d =                                      |
+| Unbounded problem. Found feasible ray d =                                      |
 | [0.    0.    0.    0.    ... 3.111 9.222 9.111 1.   ]                          |
 | from x =                                                                       |
 | [   0.       0.       0.       0.    ... 1901.889 6732.778 6899.889    0.   ]. |
@@ -755,11 +755,11 @@ Executing phase II...
 	Iteration no. 20:	q = 21 	rq =     -1.93 	B[p] = 21 	theta* = 322.0301 	z = -2286.81 
 	Iteration no. 21:	q =  1 	rq =    -87.40 	B[p] =  1 	theta* = 12.3664 	z = -3367.58 
 	Iteration no. 22:	q = 16 	rq =     -3.84 	B[p] = 16 	theta* = 13974.0000 	z = -57050.00
-	Iteration no. 23:	identified unlimited problem
+	Iteration no. 23:	identified unbounded problem
 Phase II terminated.
 
 ------------------------------------------------------------------
-| Unlimited problem. Found feasible ray d =                      |
+| Unbounded problem. Found feasible ray d =                      |
 | [ 0.  0.  1.  0. ... 21. 95. 15. 63.]                          |
 | from x =                                                       |
 | [    0.     0.   815.     0. ... 16416. 76448. 11508. 50509.]. |
