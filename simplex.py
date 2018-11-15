@@ -86,8 +86,8 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.arra
 
     if ext == 0:
         print_boxed("Found optimal solution at x =\n{}.\n\n".format(x) +
-                    "Basic indexes: {}\n".format(basic) +
-                    "Nonbasic indexes: {}\n\n".format(set(range(n)) - basic) +
+                    "Basic indices: {}\n".format(basic) +
+                    "Nonbasic indices: {}\n\n".format(set(range(n)) - basic) +
                     "Optimal cost: {}.".format(z))
     elif ext == 1:
         print_boxed("Unlimited problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
