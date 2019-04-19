@@ -5,15 +5,15 @@ problem number `prob`) and executes the simplex algorithm from the `simplex` mod
 with that data.
 """
 
-
 import argparse as arg
 import sys
 import re
 import numpy as np
-import simplex
+from pysimplex import simplex
 
 
 """Parse system arguments"""
+
 
 def prob_set_num_type(x):
     x = int(x)
@@ -21,26 +21,27 @@ def prob_set_num_type(x):
         raise arg.ArgumentError("Invalid problem set number (should be in [1-79])")
     return x
 
+
 def prob_num_type(x):
     x = int(x)
     if x - 1 not in range(4):
         raise arg.ArgumentError("Invalid problem number (should be in [1-4])")
     return x
 
-argparser = arg.ArgumentParser()
-argparser.add_argument("num", type=prob_set_num_type, default=1,
-                       help="problem set number within 1-79")
-argparser.add_argument("prob", type=prob_num_type, default=1,
-                       help="problem number within 1-4")
-argparser.add_argument("--rule", type=str, default="bland",
-                       choices=["bland", "minrc"],
-                       help="pivoting rule for simplex algorithm")
-args = argparser.parse_args(sys.argv[1:])
+
+arg_parser = arg.ArgumentParser()
+arg_parser.add_argument("num", type=prob_set_num_type, default=1,
+                        help="problem set number within 1-79")
+arg_parser.add_argument("prob", type=prob_num_type, default=1,
+                        help="problem number within 1-4")
+arg_parser.add_argument("--rule", type=str, default="bland",
+                        choices=["bland", "minrc"],
+                        help="pivoting rule for simplex algorithm")
+args = arg_parser.parse_args(sys.argv[1:])
 
 num = args.num
 prob = args.prob
 rule = 0 if args.rule == "bland" else 1
-
 
 
 """Read corresponding problem"""
@@ -52,7 +53,9 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
             if re.search(patt, line):
                 return line
 
+
     skip_to(r"cjt. dades {:>2}, problema PL {:>}".format(num, prob))
+
 
     def parse_mat():
         mat = None
@@ -65,7 +68,7 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
             block = []
             while line != "\n":
-                row = [int(c_j) for c_j in re.findall("-?\d+", line)]
+                row = [int(c_j) for c_j in re.findall(r"-?\d+", line)]
                 block.append(row)
                 line = file.readline()
 
@@ -85,6 +88,7 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
         return np.matrix(mat) if mat.shape[0] > 1 else mat[0]
 
+
     skip_to(r"c=")
     c = parse_mat()
 
@@ -95,10 +99,9 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
     b = parse_mat()
 
 
-
-"""Run simplex method"""
+"""Run the simplex algorithm"""
 
 print("Solving problem set {}, problem number {}, with {} rule..."
-        .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
+      .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
 simplex.simplex(A, b, c, rule)
 print("\n\n")

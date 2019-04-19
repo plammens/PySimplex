@@ -4,7 +4,7 @@ Python implementation of the primal simplex algorithm, by Paolo Lammens and Luis
 
 Assignment for Mathematical Programming, Mathematics degree, *FME - Universitat Politècnica de Catalunya*.
 
-View the [report](simplex_implementation_report.pdf) for more details.
+View the [report](docs/simplex_implementation_report.pdf) for more details.
 
 -----------------
 
