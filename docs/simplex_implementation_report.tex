@@ -1,0 +1,478 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{minted}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{setspace}
+\setlength{\oddsidemargin}{0.6cm}
+\setlength{\textwidth}{15cm}
+\setlength{\textheight}{22cm}
+%\setlength{\topmargin}{-1.5cm}
+\usepackage[title]{appendix}
+\DeclareMathOperator{\Id}{Id}
+
+\title{Mathematical Programming \\ \Large Simplex Implementation}
+\usepackage{authblk}
+\author{Paolo Lammens}
+\author{Luis Sierra Muntané}
+\affil{GM -- FME -- UPC}
+
+\date{\today}
+
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    filecolor = magenta,
+    linkcolor = cyan
+}
+
+\begin{document}
+\setstretch{1.1}
+
+\maketitle
+\thispagestyle{empty}
+
+\pagebreak
+
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+
+\section{Introduction}
+
+In the field of linear programming, one of the most well-known optimization algorithms, if not the most famous, is the Simplex algorithm. Developed by the American mathematical scientist George Dantzig in the 1940s, the Simplex algorithm works by switching between a polyhedron's vertices, known as basic feasible solutions, via vectors known as basic feasible directions. By doing so algorithmically, due to the convexity of polyhedra, when certain conditions are met, the algorithm can be shown to converge.
+For this assignment, a naive implementation of the simplex method was coded using Python to solve linear programming problems.
+
+\section{Data}
+
+The problem sets provided to us for this assignment are the following.
+\begin{itemize}
+    \item Paolo Lammens -- 03494734: problem set no. 41
+    \item Luis Sierra Muntané -- 24491604: problem set no. 70
+\end{itemize}
+
+\section{Implementation}
+\subsection{Quick overview of the Simplex method}
+The simplex method uses an iterative approach to find the optimal solution of a linear programming problem. It consists of two phases, in each of which the same core algorithm is used, which will referred as the ``simplex algorithm''.
+
+Let us consider a linear programming problem in standard form. The simplex algorithm takes in a constraint matrix $A$, a cost function $c$ and an initial basic feasible solution $x$ (along with its corresponding basis). Each iteration consists of four main steps:
+
+\begin{enumerate}[1)]
+    \item First, an optimality test is run: if the current BFS is optimal, the algorithm terminates; otherwise, a nonbasic variable is selected to enter the basis. The optimality condition is based upon the reduced costs of every nonbasic variable $x_q$ (for $q\in\mathcal{N}$), calculated as
+    \begin{equation}
+        r_q = {c}_{q} - {c'}_{\mathcal{B}}{B}^{-1}{A}_{q}\,.
+    \end{equation}
+    A negative reduced cost implies a possible improvement in the value of the cost function, but if all such reduced costs are non-negative, a minimum (and thus an optimum) has been attained and the algorithm terminates. Otherwise, one of the indices $q$ is chosen such that $r_q < 0$, according to a certain rule (e.g. Bland's rule).
+
+    \item Next, the basic feasible direction associated to the current BFS ($d$) is computed. 
+    %
+    \begin{equation}
+        {d}_{\mathcal{B}} ={-B}^{-1}{A}_{q}\,.
+    \end{equation}
+    
+    \item After that, the maximum step length ${\theta}^{*}$ is calculated. If $d$ has no negative component, the problem is declared as unbounded and thus the algorithm terminates. 
+    
+    \begin{equation}
+       { \theta  }^{ * }=\min _{ \left\{ i=1,...,m|{ d }_{ \mathcal{B}(i) }<0 \right\}  }{ \left( \frac { -{ x }_{ \mathcal{B}(i) } }{ { d }_{ \mathcal{B}(i) } }  \right)  } 
+    \end{equation}
+    
+    \item Finally, the values of the variables along with the cost function and basis are updated as follows:
+    
+    \begin{equation}
+    \begin{aligned}
+        { x }_{ \mathcal{B} }:={ x }_{ \mathcal{B} }+{\theta}^{*}{d}_{\mathcal{B}}, \quad 
+        {x}_{q}:={\theta}^{*},\quad
+        z:=z+{\theta}^{*}{r}_{q}, \quad
+        \\ \mathcal{B}:=\mathcal{B}\smallsetminus \left\{ B(p) \right\}\cup \left\{ q \right\}, \quad
+        \mathcal{N} := \mathcal{N}\smallsetminus \left\{ q \right\} \cup \left\{ B(p) \right\}
+    \end{aligned}
+    \end{equation}
+    
+\end{enumerate}
+
+As previously mentioned, the whole simplex method consists of two phases, the first of which serves to find an initial BFS for the original problem. Supposing the original problem is of the form
+\begin{equation*}
+\begin{cases}
+\begin{aligned}
+    \min\limits_{x\in\mathbb{R}^n} \quad &\! c'x\\[2ex]
+    \text{ subject to}\quad
+    &\! Ax = b\\
+    &x \ge 0
+\end{aligned}
+\end{cases}
+\,,
+\end{equation*}
+where $A\in\mathcal{M}_{m\times n}(\mathbb{R})$, this is obtained by applying the simplex algorithm to the so-called ``phase I problem''
+\begin{equation*}
+\begin{cases}
+\begin{aligned}
+    \min\limits_{x\in \mathbb{R}^n,\ y\in\mathbb{R}^m} \quad &\! \sum_{i = 1}^{m} y_i\\[2ex]
+    \text{ subject to}\quad
+    &\! Ax + \Id y = b\\
+    &x \ge 0
+\end{aligned}
+\end{cases}
+\end{equation*}
+with the idea that an initial BFS is trivially $y = b$ (with basic matrix is $\Id$). If such a problem didn't have an optimal value for the cost function at ${z}{*}=0$, then the original problem would be unfeasible.
+
+\subsection{The actual implementation}
+
+As previously mentioned, the simplex algorithm was brought to life by means of a Python 3.7 program. To do so, the steps described previously were implemented point by point, integrating Phase I into the code. Most features or functions declared to fulfill any of the previous steps are thoroughly commented in the code itself, as they are simply translations of the expressions illustrated in the previous subsection.
+
+\paragraph{Pivoting rules} An avid and discerning reader may have noticed that in the very first step of a simplex iteration, the choice of which nonbasic variable enters the basis is not clarified. This is because many choices are possible, and different choices of variables lead to different outcomes in the path followed by the algorithm. It is for this reason that in the implementation of the algorithm, more than one criterion was used to determine the entering variable. These pivoting rules were as follows.
+
+On the one hand, Bland's rule is implemented as the standard rule to guarantee the convergence of the algorithm, since in the case of the existence of degenerate solutions it will cycle following the lexicographical order of the indices of the basic variables.
+
+On the other hand, another implementation, which in our experience performs faster, is that of choosing the most negative reduced cost---equivalent, in an intuitive phrasing, to taking the path of steepest descent. This need not translate to the greatest decrease in the cost function since that also depends on the step length $\theta^\ast$, but it generally did converge in fewer iterations for the problems provided. The main problem with this rule is the risk of endless cycling when treating degenerate problems. Due to that, we've introduced a precautionary limit of 500 iterations, after which the function raises an exception. Nevertheless, we didn't encounter any problem in which that occurred.
+
+\paragraph{Inverse update} To make our algorithm more efficient, rather than computing the inverse matrix ${B}^{-1}$ in every single iteration, the matrix is updated by using the previous matrix and changing the column corresponding with the variable that entered/exited the basis. That is achieved through a sequence of elementary row operations on the previous inverse matrix:
+\begin{align*}
+    \beta_i' \coloneqq \beta_i - \frac{d_{\mathcal{B}(i)}}{d_{\mathcal{B}(p)}} && \forall i \ne p \\
+    \beta_p' \coloneqq \frac{\beta_p}{-d_{\mathcal{B}(p)}}\,, &&
+\end{align*}
+where $\beta_i$ and $\beta'_i$ denote the $i$th row of the previous and next inverse matrix, respectively. In this way, we avoid calculating it from scratch, which is computationally expensive and so can unnecessarily lengthen the run time of the program.
+
+\paragraph{Numerical error} Furthermore, to avoid floating point arithmetic errors, an epsilon parameter was initialized at the beginning of the code so that very small numbers were rounded and did not cause errors to propagate and drastically affect the final results. More details are given below.
+
+\paragraph{Design} The overall design is a main ``utilities'' module, with all of the relevant functions, and an auxiliary script (see \hyperref[apx:index]{appendix \ref{apx:index}} for further details). The following outline indicates the structure and design (i.e., main functions and global variables) of the {main module}, \href{run:./simplex.py}{\mintinline{text}{simplex.py}}. 
+\begin{itemize}
+    \item 
+    \begin{minted}[autogobble]{python3}
+        simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0) \
+            -> (int, np.array, set, float, np.array)
+    \end{minted}
+    This function is the implementation of what we were referring to previously as the ``simplex algorithm'' (to distinguish it from the overall two-phase method). It is intended for internal use only (although in Python we're all consenting adults, so we need not make things ``private'').
+    
+    It basically contains some setup and then a loop that iterates through BFSs until either an optimum or a feasible ray is found. As we justify later in th text, we enforced a limit of 500 iterations. The return values are the exit code (\texttt{0} means an optimum has been attained, \texttt{1} means the problem is unbounded), the exiting BFS $x^\ast$, the basis set $\mathcal{B}$, the value of $z^\ast$ (if an optimum has been attained), and a feasible ray $d$ (if the problem is unbounded). At each iteration, it prints a status update.
+    
+    An overview of the main local varibles:
+    \begin{itemize}
+        \item \mintinline{python3}{m, n}: no. of rows and columns of $A$, respectively.
+        \item \mintinline{python3}{B}: list of basic indices. It is stored as a \mintinline{python3}{list} and not as a \mintinline{python3}{set} (unlike the parameter \mintinline{python3}{basic} and the local variable \mintinline{python3}{N}) because we want to keep the order of the indices as is, so that when updating the inverse matrix we don't need to find out where the column corresponding to $\mathcal{B}(p)$ has to go---i.e., if we kept a strict order, we would first have to find the correct spot for $A_{\mathcal{B}(p)}$, according to the lexicographical order of the rest of basic indices, and then move the columns $A_{\mathcal{B}(i)}$ with $\mathcal{B}(i) > \mathcal{B}(p)$ one place to the right.
+        
+        We update it at the end of each iteration by assigning \mintinline{python3}{B[p] = q}.
+        \item \mintinline{python3}{N}: set of nonbasic indices. In this case, we do want to keep strict lexicographical order, since when using Bland's rule, we need to traverse the nonbasic indices in order. Using the built-in \mintinline{python3}{set} type ensures that.
+        
+        It is updated as \mintinline{python3}{N = N - {q} | {B[p]}}; note that it needs to be updated before \mintinline{python3}{B}.
+        %
+        %
+        \item \mintinline{python3}{B_inv}: inverse of the basic matrix. It is calculated once in the initialization phase of \mintinline{python3}{simplex_core} and then updated at each iteration as described above.
+        \item \mintinline{python3}{prices}: variable corresponding to the marginal costs (also known as shadow prices), calculated as ${c}_{\mathcal{B}}{B}^{-1}$, which was ubiquitously used throughout the code and so is stored in a separate variable for convenience and efficiency.
+        \item \mintinline{python3}{q}: index of entering nonbasic variable.
+        \item \mintinline{python3}{r_q}: reduced cost corresponding to the $q$th variable ($r_q$).
+        \item \mintinline{python3}{p}: index $p$ within $\{1,\ldots,m\}$ such that $\mathcal{B}(p)$ is the exiting basic variable.
+        \item \mintinline{python3}{d}: basic feasible direction for current iteration.
+        \item \mintinline{python3}{theta}: step length for current iteration.
+        \item \mintinline{python3}{z}: value of the objective function.
+    \end{itemize}
+    %
+    \item \mint[breaklines, breakautoindent]{python3}{simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.array, float, np.array)} This function is the ``public'' method of this module---i.e., the interface for external use. It takes the data of a problem (in standard form) and the pivoting rule to be used (\texttt{0} is Bland's, \texttt{1} is minimal reduced cost) as parameters. It does a bit of error checking and also enforces the condition that the constraint matrix has to be full-rank---if it is not, by means of a QR factorization, it removes the redundant rows.
+    
+    Then, it proceeds to the setup and execution of phase I---the latter by calling \mintinline{python3}{simplex_core}. If it terminates with $z^\ast > 0$, it declares the problem as unfeasible and terminates. Otherwise, it continues to the execution of phase II---again, by calling \mintinline{python3}{simplex_core}. The return values---although useless right now, since all results are printed to \texttt{stdout}---are the exit code (\texttt{0} means an optimum has been attained, \texttt{1} means the problem is unbounded), the resulting BFS $x^\ast$, the value of $z^\ast$ (if an optimum has been attained), and a feasible ray $d$ (if the problem is unbounded).
+    %
+    \item \mint[]{python3}{trunc(x: float) -> float}
+    A function for rounding numbers to 0 when their absolute value is less than \mintinline{text}{epsilon}. Useful for avoiding numerical catastrophes such as failing to identify an unbounded problem because some of the components of $d$ are along the lines of $-1.2\mathrm{e}-\!18$ (when it ought to be 0)\footnote{We encountered this problem in the form of a singular basic matrix.}. 
+    %
+    \item \mint[]{python3}{epsilon = 10 ** (-10)} A global, constant numerical threshold for truncating numbers to 0 (with \mintinline{text}{trunc}).
+\end{itemize}
+
+\section{Results}
+
+The results obtained when solving the problems with the simplex implementation are presented in two groups corresponding to problem set 41 and problem set 70.  Due to their length, the iterations are included in a \hyperref[file:batch_solve.txt]{separate text file} (\href{run:./batch_solve.txt}{batch\_solve.txt}), but their overall breakdown is presented here.
+
+\subsection{Problem set 41}
+
+Here are the final results the algorithm produced for each problem. There are two such solutions for each problem, one corresponding to the algorithm using Bland's rule and a second one using the minimal reduced cost to determine the entering variable. The breakdown of these problems was: Problem 1 has an optimum ${z}^{*} \approx -279.29$, Problem 2 was an unbounded problem, Problem 3 had an optimum at ${z}^{*} \approx -1210.72$ and Problem 4 was found to be unfeasable in phase I.
+
+\begin{itemize}
+    \item Problem 1:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+
+Solving problem set 41, problem number 1, with Bland's rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
+|                                                                        |
+| Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+|                                                                        |
+| Optimal cost: -279.29040729186545.                                     |
+--------------------------------------------------------------------------
+19 iterations in phase I, 19 iterations in phase II (38 total).
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+
+Solving problem set 41, problem number 1, with minimal reduced cost rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  0.      2.507   0.      0.768 ...  49.137 136.908 392.496  17.49 ]. |
+|                                                                        |
+| Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
+| Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
+|                                                                        |
+| Optimal cost: -279.2904072759005.                                      |
+--------------------------------------------------------------------------
+12 iterations in phase I, 10 iterations in phase II (22 total).
+\end{minted}
+
+\vspace{2ex}
+\newpage
+    \item Problem 2:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 2, with Bland's rule...
+
+--------------------------------------------------------------------------
+| unbounded problem. Found feasible ray d =                              |
+| [ 0.    0.    0.    0.    ...  4.667  8.667 14.333  1.   ]             |
+| from x =                                                               |
+| [ 0.  0.  0.  0.    ... 3370.039 5518.51  8575.667    0.   ].          |
+--------------------------------------------------------------------------
+17 iterations in phase I, 30 iterations in phase II (47 total).
+
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 2, with minimal reduced cost rule...
+
+--------------------------------------------------------------------------
+| unbounded problem. Found feasible ray d =                              |
+| [ 0.   0.   0.    0.    ...  4.667  8.667 14.333  1.   ]               |
+| from x =                                                               |
+| [ 0.  0.  0.  0.    ... 3370.039 5518.51  8575.667    0.   ].          |
+--------------------------------------------------------------------------
+11 iterations in phase I, 16 iterations in phase II (27 total).
+\end{minted}
+
+\vspace{2ex}
+\item Problem 3:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 3, with Bland's rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [7.325e-02 7.947e-01 2.326e+00 0. ... 0. 0. 0. 2.470e+02].             |
+|                                                                        |
+| Basic indices: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                     |
+| Nonbasic indices: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                  |
+|                                                                        |
+| Optimal cost: -1210.7235588791593.                                     |
+--------------------------------------------------------------------------
+21 iterations in phase I, 10 iterations in phase II (31 total).
+\end{minted}
+
+\newpage
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 3, with minimal reduced cost rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [7.325e-02 7.947e-01 2.326e+00 0. ... 0. 0. 0. 2.470e+02].             |
+|                                                                        |
+| Basic indices: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                     |
+| Nonbasic indices: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                  |
+|                                                                        |
+| Optimal cost: -1210.7235588158378.                                     |
+--------------------------------------------------------------------------
+12 iterations in phase I, 7 iterations in phase II (19 total).
+\end{minted}
+
+\vspace{2ex}
+\item Problem 4:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 4, with Bland's rule...
+
+------------------------------------------
+| Unfeasible problem (z_I = 824.25 > 0). |
+------------------------------------------
+14 iterations in phase I.
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 41, problem number 4, with minimal reduced cost rule...
+
+------------------------------------------
+| Unfeasible problem (z_I = 824.25 > 0). |
+------------------------------------------
+10 iterations in phase I.
+\end{minted}
+
+\vspace{2ex}
+\end{itemize}
+
+\subsection{Problem set 70}
+
+Similarly, here are the final outcomes of the simplex iterations for problem set 70, in each case first for Bland's rule and then for the minimum reduced cost rule. The breakdown of the four problems in this set was: Problem 1 has an optimum ${z}^{*} \approx -471.53$, Problem 2 had an optimum at ${z}^{*} \approx -794.24$, Problem 3 was found to be unfeasable in phase I and finally Problem 4 is an unbounded problem.
+
+\begin{itemize}
+    \item Problem 1:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+
+Solving problem set 70, problem number 1, with Bland's rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
+|                                                                        |
+| Basic indices: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indices: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+|                                                                        |
+| Optimal cost: -471.5280570075495.                                      |
+--------------------------------------------------------------------------
+19 iterations in phase I, 11 iterations in phase II (30 total).
+\end{minted}
+
+\vspace{2ex}
+
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 1, with minimal reduced cost rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  4.239   0.      0.      2.625 ... 302.724   0.    100.705 479.73 ]. |
+|                                                                        |
+| Basic indices: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
+| Nonbasic indices: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
+|                                                                        |
+| Optimal cost: -471.528057003315.                                       |
+--------------------------------------------------------------------------
+15 iterations in phase I, 13 iterations in phase II (28 total).
+
+\end{minted}
+
+\vspace{2ex}
+    \item Problem 2:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 2, with Bland's rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
+|                                                                        |
+| Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+|                                                                        |
+| Optimal cost: -794.2416133763497.                                      |
+--------------------------------------------------------------------------
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 2, with minimal reduced cost rule...
+
+--------------------------------------------------------------------------
+| Found optimal solution at x =                                          |
+| [  1.119   4.485   0.      0.    ... 251.853 268.039   0.     22.272]. |
+|                                                                        |
+| Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
+| Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
+|                                                                        |
+| Optimal cost: -794.2416134520921.                                      |
+--------------------------------------------------------------------------
+12 iterations in phase I, 19 iterations in phase II (31 total).
+\end{minted}
+
+\vspace{2ex}
+    \item Problem 3:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 3, with Bland's rule...
+
+-------------------------------------------
+| Unfeasible problem (z_I = 553.699 > 0). |
+-------------------------------------------
+15 iterations in phase I.
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 3, with minimal reduced cost rule...
+
+-------------------------------------------
+| Unfeasible problem (z_I = 553.699 > 0). |
+-------------------------------------------
+12 iterations in phase I.
+\end{minted}
+
+\vspace{2ex}
+
+    \item Problem 4:
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 4, with Bland's rule...
+
+--------------------------------------------------------------------------
+| unbounded problem. Found feasible ray d =                              |
+| [0.    0.    0.    0.    ... 3.111 9.222 9.111 1.   ]                  |
+| from x =                                                               |
+| [0.   0.    0.    0.    ... 1901.889 6732.778 6899.889    0.   ].      |
+--------------------------------------------------------------------------
+14 iterations in phase I, 35 iterations in phase II (49 total).
+
+\end{minted}
+
+\vspace{2ex}
+\begin{minted}[breaklines, breakautoindent=true]{text}
+Solving problem set 70, problem number 4, with minimal reduced cost rule...
+
+------------------------------------------------------------------
+| unbounded problem. Found feasible ray d =                      |
+| [ 0.  0.  1.  0. ... 21. 95. 15. 63.]                          |
+| from x =                                                       |
+| [    0.     0.   815.     0. ... 16416. 76448. 11508. 50509.]. |
+------------------------------------------------------------------
+12 iterations in phase I, 23 iterations in phase II (35 total).
+\end{minted}
+
+\vspace{2ex}
+\end{itemize}
+
+\newpage
+
+\begin{appendices}
+
+\section{Repository index}\label{apx:index}
+\begin{itemize}
+    \item\label{file:simplex.py} \href{run:./simplex.py}{\mintinline{text}{simplex.py}}: Python module with all of the core implementation of the simplex method.
+    
+    \item\label{file:solve.py} \href{run:./solve.py}{\mintinline{text}{solve.py}}: Python script for parsing and converting data from the database file \\ (\mintinline{bash}{pm18_exercici_simplex_dades.txt}) and calling the \mintinline{python3}{simplex} function from the \\ \mintinline{python3}{simplex.py} module with those data.
+    
+    Usage:
+    \begin{minted}[breaklines, bgcolor=bg, autogobble]{text}
+    $ python solve.py --help
+    usage: solve.py [-h] [--rule {bland,minrc}] num prob
+    
+    positional arguments:
+      num                   problem set number within 1-79
+      prob                  problem number within 1-4
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --rule {bland,minrc}  pivoting rule for simplex algorithm
+      
+    \end{minted}
+    
+    \item \href{run:./batch_solve.bat}{\mintinline{bash}{batch_solve.bat}}: Windows bash file for automating solving our problems (problem sets 41 and 70, problems 1 through 4).
+    
+    \item\label{file:batch_solve.txt} \href{run:./batch_solve.txt}{\mintinline{bash}{batch_solve.txt}}: text file with the output of each of the \mintinline{python3}{solve.py} calls' output when \mintinline{bash}{batch_solve.bat} is run.
+    
+    \item \href{run:./pm18_exercici_simplex_dades.txt}{\mintinline{bash}{pm18_exercici_simplex_dades.txt}}: given database file.
+    
+    \item \href{run:./simplex_implementation_report.pdf}{\mintinline{text}{simplex_implementation_report.pdf}}: this pdf file.
+\end{itemize}
+
+
+\end{appendices}
+
+\end{document}
