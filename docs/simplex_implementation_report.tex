@@ -22,7 +22,7 @@
 \author{Luis Sierra Muntané}
 \affil{GM -- FME -- UPC}
 
-\date{\today}
+\date{November 15, 2018}
 
 \definecolor{bg}{rgb}{0.95,0.95,0.95}
 
@@ -53,10 +53,10 @@ For this assignment, a naive implementation of the simplex method was coded usin
 
 \section{Data}
 
-The problem sets provided to us for this assignment are the following.
+The problem sets we have been assigned are the following.
 \begin{itemize}
-    \item Paolo Lammens -- 03494734: problem set no. 41
-    \item Luis Sierra Muntané -- 24491604: problem set no. 70
+    \item Paolo Lammens: problem set no. 41
+    \item Luis Sierra Muntané: problem set no. 70
 \end{itemize}
 
 \section{Implementation}
@@ -125,7 +125,7 @@ with the idea that an initial BFS is trivially $y = b$ (with basic matrix is $\I
 
 \subsection{The actual implementation}
 
-As previously mentioned, the simplex algorithm was brought to life by means of a Python 3.7 program. To do so, the steps described previously were implemented point by point, integrating Phase I into the code. Most features or functions declared to fulfill any of the previous steps are thoroughly commented in the code itself, as they are simply translations of the expressions illustrated in the previous subsection.
+As previously mentioned, the simplex algorithm was brought to life by means of a Python 3.7 program. To do so, the steps described previously were implemented almost one-to-one, integrating Phase I into the code. Most features or functions declared to fulfil any of the previous steps are thoroughly commented in the code itself, as they are simply translations of the expressions illustrated in the previous subsection.
 
 \paragraph{Pivoting rules} An avid and discerning reader may have noticed that in the very first step of a simplex iteration, the choice of which nonbasic variable enters the basis is not clarified. This is because many choices are possible, and different choices of variables lead to different outcomes in the path followed by the algorithm. It is for this reason that in the implementation of the algorithm, more than one criterion was used to determine the entering variable. These pivoting rules were as follows.
 
