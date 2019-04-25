@@ -1,4 +1,5 @@
 import numpy as np
+import sympy
 from numpy.matlib import matrix
 
 
@@ -7,11 +8,12 @@ class LinearProgrammingProblem:
     constraints: matrix
     independent_terms: np.ndarray
 
-    def __init__(self, costs: np.array, constraints: matrix, independednt_terms: np.array):
+    def __init__(self, costs: np.array, constraints: matrix, independent_terms: np.array):
         self.constraints = constraints
-        if costs.shape != (self.cols) or independednt_terms.shape != (self.nrows):
+        self._remove_ld_rows()
+        if costs.shape != self.ncols or independent_terms.shape != self.nrows:
             raise ValueError("shapes do not match")
-        self.costs, self.independent_terms = costs, independednt_terms
+        self.costs, self.independent_terms = costs, independent_terms
 
     @property
     def nrows(self):
@@ -20,3 +22,9 @@ class LinearProgrammingProblem:
     @property
     def ncols(self):
         return self.constraints.shape[1]
+
+    def _remove_ld_rows(self):
+        if not np.linalg.matrix_rank(self.constraints) == self.nrows:
+            # Remove ld rows:
+            _, li_indexes = sympy.Matrix(self.constraints).T.rref()
+            self.constraints = self.constraints[li_indexes, :]
