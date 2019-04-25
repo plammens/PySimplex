@@ -11,6 +11,22 @@ from pysimplex.core import *
 from pysimplex.utils import *
 
 
+
+def simplex(costs: np.ndarray, constraints: np.ndarray, independent_terms: np.ndarray,
+            *, rule: PivotingRule = PivotingRule.BLAND,  verbose: bool = True) -> SolveResult:
+    """
+    Outer wrapper for executing the simplex method, phase I and phase II.
+    :param costs:  cost coefficients for each variable
+    :param constraints: matrix A of the standard-form constraints Ax = b
+    :param independent_terms: vector b of the standard-form constraints Ax = b
+    :param rule: variable selection rule (e.g. Bland's)
+    :param verbose: if True, prints the outcome of each step to stdout.
+    """
+    lp = LinearProgrammingProblem(costs, constraints, independent_terms)
+    return Simplex(lp).solve(rule=rule, verbose=verbose)
+
+
+
 class Simplex:
     lp: LinearProgrammingProblem
 

@@ -8,6 +8,10 @@ class LinearProgrammingProblem:
     independent_terms: np.ndarray
 
     def __init__(self, costs: np.array, constraints: np.ndarray, independent_terms: np.array):
+        if costs.ndim != 1: raise ValueError("costs should be a 1D vector")
+        if constraints.ndim != 2: raise ValueError("constraints should be a 2D matrix")
+        if independent_terms.ndim != 1: raise ValueError("independent terms should be a 1D vector")
+
         self.constraints = constraints
         self._remove_ld_rows()
         if costs.shape != self.ncols or independent_terms.shape != self.nrows:
