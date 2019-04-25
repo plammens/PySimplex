@@ -7,90 +7,105 @@ luis.sierra.muntane@estudiant.upc.edu
 paolo.matias.lammens@estudiant.upc.edu
 """
 
-import numpy as np
-from numpy.matlib import matrix  # Matrix data type
-
+from pysimplex.core import *
 from pysimplex.utils import *
 
-np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Prettier array printing
+
+class Simplex:
+    lp: LinearProgrammingProblem
+
+    def __init__(self, lp: LinearProgrammingProblem):
+        self.lp = lp
+
+    def solve(self, rule: PivotingRule = PivotingRule.BLAND, *, verbose: bool = True) \
+            -> SolveResult:
+        """
+        Outer "wrapper" for executing the simplex method: phase I and phase II.
+        :param rule: variable selection rule (e.g. Bland's)
+        :param verbose: if True, prints the outcome of each step to stdout.
+        """
+        if verbose:
+            np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)
+
+        phaseI_result = self.run_phaseI(verbose=verbose)
+        if phaseI_result.optimal_cost > 0:
+            if verbose: _print_unfeasible(phaseI_result)
+            return SolveResult(SolveResult.ExitCode.UNFEASIBLE, iterations=phaseI_result.iterations)
+
+        phaseII_result = self.run_phaseII(phaseI_result, verbose=verbose)
+        if verbose:
+            _print_phaseII(phaseII_result)
+            _print_iterations(phaseI_result, phaseII_result)
+        return phaseII_result
 
 
-def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.array, float, np.array):
-    """
-    Outer "wrapper" for executing the simplex method: phase I and phase II.
+    def run_phaseI(self, *, verbose: bool) -> SolveResult:
+        m, n = self.lp.nrows, self.lp.ncols
 
-    :param A: constraint matrix
-    :param b: independent terms in constraints
-    :param c: costs vector
-    :param rule: variable selection rule (e.g. Bland's)
+        mask = self.lp.independent_terms < 0
+        self.lp.constraints[mask] *= -1  # Change sign of constraints
+        self.lp.independent_terms[mask] *= -1  # Idem
 
-    This function prints the outcome of each step to stdout.
-    """
+        A_I = np.concatenate((self.lp.constraints, np.identity(m)), axis=1)
+        c_I = np.concatenate((np.zeros(n), np.ones(m)))
 
-    m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
+        phaseI = LinearProgrammingProblem(costs=c_I, constraints=A_I,
+                                          independent_terms=self.lp.independent_terms)
+        x_I = np.concatenate((np.zeros(n), self.lp.independent_terms))
+        basic_I = set(range(n, n + m))
 
-    """Error-checking"""
-    if n < m:
-        raise ValueError("Incompatible dimensions "
-                         "(no. of variables : {} > {} : no.of constraints".format(n, m))
-    if b.shape != (m,):
-        raise ValueError("Incompatible dimensions: c_j has shape {}, expected {}.".format(b.shape, (m,)))
-    if c.shape != (n,):
-        raise ValueError("Incompatible dimensions: c has shape {}, expected {}.".format(c.shape, (n,)))
+        if verbose: print("Executing phase I...")
+        result = SimplexCore(phaseI, initial_bfs=x_I, basic_indices=basic_I).solve(verbose=verbose)
+        if verbose: print("Phase I terminated.")
+        assert result.exit is SolveResult.ExitCode.OPTIMUM
 
+        return result
 
-    """Check full rank matrix"""
-    if not np.linalg.matrix_rank(A) == m:
-        # Remove ld rows:
-        A = A[[i for i in range(m) if not np.array_equal(np.linalg.qr(A)[1][i, :], np.zeros(n))], :]
-        m = A.shape[0]  # Update no. of rows
+    def run_phaseII(self, phaseI_result: SolveResult, *, verbose: bool) -> SolveResult:
+        # Get initial BFS for original problem (without artificial variables):
+        self._remove_artificial_variables(phaseI_result)
+        init_bfs = phaseI_result.solution[:self.lp.ncols]
+        init_base = phaseI_result.base
+        if verbose: print("Found initial BFS at x = \n{}.\n".format(init_bfs))
 
+        if verbose: print("Executing phase II...")
+        result = SimplexCore(self.lp, init_bfs, init_base).solve(verbose=verbose)
+        if verbose: print("Phase II terminated.\n")
 
-    """Phase I setup"""
-    A[[i for i in range(m) if b[i] < 0]] *= -1  # Change sign of constraints
-    b = np.abs(b)  # Idem
-
-    A_I = matrix(np.concatenate((A, np.identity(m)), axis=1))  # Phase I constraint matrix
-    x_I = np.concatenate((np.zeros(n), b))  # Phase I variable vector
-    c_I = np.concatenate((np.zeros(n), np.ones(m)))  # Phase I c_j vector
-    basic_I = set(range(n, n + m))  # Phase I basic variable set
+        return result
 
 
-    """Phase I execution"""
-    print("Executing phase I...")
-    ext_I, x_init, basic_init, z_I, _, it_I = simplex_core(A_I, c_I, x_I, basic_I, rule)
-    # ^ Exit code, initial BFS, basis, z_I, d (not needed) and no. of iterations
-    print("Phase I terminated.")
-
-    assert ext_I == 0  # assert that phase I has an optimal solution (and is not unbounded)
-    if z_I > 0:
-        print("\n")
-        print_boxed("Unfeasible problem (z_I = {:.6g} > 0).".format(z_I))
-        print("{} iterations in phase I.".format(it_I), end='\n\n')
-        return 2, None, None, None
-    if any(j not in range(n) for j in basic_init):
-        # If some artificial variable is in the basis for the initial BFS, exit:
-        raise NotImplementedError("Artificial variables in basis")
-
-    x_init = x_init[:n]  # Get initial BFS for original problem (without artificial vars.)
-
-    print("Found initial BFS at x = \n{}.\n".format(x_init))
+    def _remove_artificial_variables(self, phaseI: SolveResult):
+        if any(j not in range(self.lp.ncols) for j in phaseI.base):
+            # If some artificial variable is in the basis for the initial BFS, exit:
+            raise NotImplementedError("Artificial variables in basis")
 
 
-    """Phase II execution"""
-    print("Executing phase II...")
-    ext, x, basic, z, d, it_II = simplex_core(A, c, x_init, basic_init, rule)
-    print("Phase II terminated.\n")
 
-    if ext == 0:
-        print_boxed("Found optimal solution at x =\n{}.\n\n".format(x) +
-                    "Basic indices: {}\n".format(basic) +
-                    "Nonbasic indices: {}\n\n".format(set(range(n)) - basic) +
-                    "Optimal cost: {}.".format(z))
-    elif ext == 1:
-        print_boxed("Unbounded problem. Found feasible ray d =\n{}\nfrom x =\n{}.".format(d, x))
+def _print_unfeasible(phaseI: SolveResult):
+    print("\n")
+    print_boxed("Unfeasible problem (z_I = {:.6g} > 0).".format(phaseI.optimal_cost))
+    print("{} iterations in phase I.".format(phaseI.iterations), end='\n\n')
 
-    print("{} iterations in phase I, {} iterations in phase II ({} total).".format(it_I, it_II, it_I + it_II),
+
+def _print_phaseII(phaseII: SolveResult):
+    n = len(phaseII.solution)
+
+    if phaseII.exit is SolveResult.ExitCode.OPTIMUM:
+        print_boxed("Found optimal solution at x =\n{}.\n\n".format(phaseII.solution) +
+                    "Basic indices: {}\n".format(phaseII.base) +
+                    "Nonbasic indices: {}\n\n".format(set(range(n)) - phaseII.base) +
+                    "Optimal cost: {}.".format(phaseII.optimal_cost))
+
+    elif phaseII.exit is SolveResult.ExitCode.UNBOUNDED:
+        print_boxed("Unbounded problem. Found feasible ray "
+                    "d =\n{}\nfrom x =\n{}.".format(phaseII.direction, phaseII.solution))
+
+    else: assert False
+
+
+def _print_iterations(phaseI: SolveResult, phaseII: SolveResult):
+    print("{} iterations in phase I, {} iterations in phase II "
+          "({} total).".format(phaseI.iterations, phaseII.iterations,
+                               phaseI.iterations + phaseII.iterations),
           end='\n\n')
-
-    return ext, x, z, d

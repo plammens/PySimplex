@@ -1,14 +1,13 @@
 import numpy as np
 import sympy
-from numpy.matlib import matrix
 
 
 class LinearProgrammingProblem:
     costs: np.ndarray
-    constraints: matrix
+    constraints: np.ndarray
     independent_terms: np.ndarray
 
-    def __init__(self, costs: np.array, constraints: matrix, independent_terms: np.array):
+    def __init__(self, costs: np.array, constraints: np.ndarray, independent_terms: np.array):
         self.constraints = constraints
         self._remove_ld_rows()
         if costs.shape != self.ncols or independent_terms.shape != self.nrows:
