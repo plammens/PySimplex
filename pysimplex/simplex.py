@@ -8,13 +8,11 @@ paolo.matias.lammens@estudiant.upc.edu
 """
 
 import numpy as np
-from numpy.linalg import inv  # Matrix inverse
 from numpy.matlib import matrix  # Matrix data type
 
+from pysimplex.utils import *
+
 np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)  # Prettier array printing
-
-epsilon = 10**(-10)  # Global truncation threshold
-
 
 
 def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.array, float, np.array):
@@ -96,132 +94,3 @@ def simplex(A: matrix, b: np.array, c: np.array, rule: int = 0) -> (int, np.arra
           end='\n\n')
 
     return ext, x, z, d
-
-
-def simplex_core(A: matrix, c: np.array, x: np.array, basic: set, rule: int = 0) \
-        -> (int, np.array, set, float, np.array):
-    """
-    This function executes the simplex algorithm iteratively until it
-    terminates. It is the core function of this project.
-
-    :param A: constraint matrix
-    :param c: costs vector
-    :param x: initial BFS
-    :param basic: initial basic index set
-    :param rule: variable selection rule (e.g. Bland's)
-    :return: a tuple consisting of the exit code, the value of x, basic index set,
-    optimal cost (if optimum has been found), and BFD corresponding to
-    feasible ray (if unbounded problem)
-    """
-
-    m, n = A.shape[0], A.shape[1]  # no. of rows, columns of A, respectively
-
-    assert c.shape == (n,) and x.shape == (n,)  # Make sure dimensions match
-    assert isinstance(basic, set) and len(basic) == m and \
-           all(i in range(n) for i in basic)  # Make sure that basic is a valid base
-
-    B, N = list(basic), set(range(n)) - basic  # Basic /nonbasic index lists
-    del basic  # Let's work in hygienic conditions
-    B_inv = inv(A[:, B])  # Calculate inverse of basic matrix (`A[:, B]`)
-
-    z = np.dot(c, x)  # Value of obj. function
-
-
-    it = 1  # Iteration number
-    while it <= 500:  # Ensure procedure terminates (for the min reduced cost rule)
-        r_q, q, p, theta, d = None, None, None, None, None  # Some cleanup
-        print("\tIteration no. {}:".format(it), end='')
-
-
-        """Optimality test"""
-        prices = c[B] * B_inv  # Store product for efficiency
-
-        if rule == 0:  # Bland rule
-            optimum = True
-            for q in N:  # Read in lexicographical index order
-                r_q = np.asscalar(c[q] - prices * A[:, q])
-                if r_q < 0:
-                    optimum = False
-                    break  # The loop is exited with the first negative r.c.
-        elif rule == 1:  # Minimal reduced cost rule
-            r_q, q = min([(np.asscalar(c[q] - prices * A[:, q]), q) for q in N],
-                         key=(lambda tup: tup[0]))
-            optimum = (r_q >= 0)
-        else:
-            raise ValueError("Invalid pivoting rule")
-
-        if optimum:
-            print("\tfound optimum")
-            return 0, x, set(B), z, None, it  # Found optimal solution
-
-
-        """Feasible basic direction"""
-        d = np.zeros(n)
-        for i in range(m):
-            d[B[i]] = trunc(np.asscalar(-B_inv[i, :] * A[:, q]))
-        d[q] = 1
-
-
-        """Maximum step length"""
-        # List of tuples of "candidate" theta an corresponding index in basic list:
-        neg = [(-x[B[i]] / d[B[i]], i) for i in range(m) if d[B[i]] < 0]
-
-        if len(neg) == 0:
-            print("\tidentified unbounded problem")
-            return 1, x, set(B),  None, d, it  # Flag problem as unbounded and return ray
-
-        # Get theta and index (in basis) of exiting basic variable:
-        theta, p = min(neg, key=(lambda tup: tup[0]))
-
-
-        """Variable updates"""
-        x = np.array([trunc(var) for var in (x + theta * d)])  # Update all variables
-        assert x[B[p]] == 0
-
-        z = trunc(z + theta * r_q)  # Update obj. function value
-
-        # Update inverse:
-        for i in set(range(m)) - {p}:
-            B_inv[i, :] -= d[B[i]]/d[B[p]] * B_inv[p, :]
-        B_inv[p, :] /= -d[B[p]]
-
-        N = N - {q} | {B[p]}  # Update nonbasic index set
-        B[p] = q  # Update basic index list
-
-        """Print status update"""
-        print(
-            "\tq = {:>2} \trq = {:>9.2f} \tB[p] = {:>2d} \ttheta* = {:>5.4f} \tz = {:<9.2f}"
-                .format(q + 1, r_q, B[p] + 1, theta, z)
-        )
-
-        it += 1
-
-
-    # If loop goes over max iterations (500):
-    raise TimeoutError("Iterations maxed out (probably due to an endless loop)")
-
-
-def print_boxed(msg: str) -> None:
-    """
-    Utility for printing pretty boxes.
-    :param msg: message to be printed
-    """
-
-    lines = msg.splitlines()
-    max_len = max(len(line) for line in lines)
-
-    if max_len > 100:
-        raise ValueError("Overfull box")
-
-    print('-' * (max_len + 4))
-    for line in lines:
-        print('| ' + line + ' ' * (max_len - len(line)) + ' |')
-    print('-' * (max_len + 4))
-
-
-
-def trunc(x: float) -> float:
-    """
-    Returns 0 if x is smaller (in absolute value) than a certain global constant.
-    """
-    return x if abs(x) >= epsilon else 0
