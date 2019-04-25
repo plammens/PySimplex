@@ -9,7 +9,7 @@ import argparse as arg
 import sys
 import re
 import numpy as np
-from pysimplex import simplex
+from pysimplex import wrapper
 
 
 """Parse system arguments"""
@@ -103,5 +103,5 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
 print("Solving problem set {}, problem number {}, with {} rule..."
       .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
-simplex.simplex(A, b, c, rule)
+wrapper.simplex(A, b, c, rule)
 print("\n\n")
