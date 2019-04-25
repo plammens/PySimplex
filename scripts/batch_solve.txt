@@ -53,14 +53,14 @@ Phase II terminated.
 | Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
 | Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
 |                                                                        |
-| Optimal cost: -279.2904072977688.                                      |
+| Optimal cost: -279.29040729776915.                                     |
 --------------------------------------------------------------------------
 19 iterations in phase I, 19 iterations in phase II (38 total).
 
 
 
 
-Solving problem set 41, problem number 1, with minimal reduced cost rule...
+Solving problem set 41, problem number 1, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q = 13 	rq =   -540.00 	B[p] = 13 	theta* = 0.1059 	z = 3534.82  
@@ -99,7 +99,7 @@ Phase II terminated.
 | Basic indices: {1, 3, 5, 6, 7, 13, 16, 17, 18, 19}                     |
 | Nonbasic indices: {0, 2, 4, 8, 9, 10, 11, 12, 14, 15}                  |
 |                                                                        |
-| Optimal cost: -279.2904072977688.                                      |
+| Optimal cost: -279.29040729776875.                                     |
 --------------------------------------------------------------------------
 12 iterations in phase I, 10 iterations in phase II (22 total).
 
@@ -174,7 +174,7 @@ Phase II terminated.
 
 
 
-Solving problem set 41, problem number 2, with minimal reduced cost rule...
+Solving problem set 41, problem number 2, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q = 10 	rq =   -609.00 	B[p] = 10 	theta* = 6.4043 	z = 3432.81  
@@ -270,14 +270,14 @@ Phase II terminated.
 | Basic indices: {0, 1, 2, 8, 9, 10, 11, 12, 15, 19}                                     |
 | Nonbasic indices: {3, 4, 5, 6, 7, 13, 14, 16, 17, 18}                                  |
 |                                                                                        |
-| Optimal cost: -1210.72355882244.                                                       |
+| Optimal cost: -1210.7235588224396.                                                     |
 ------------------------------------------------------------------------------------------
 21 iterations in phase I, 10 iterations in phase II (31 total).
 
 
 
 
-Solving problem set 41, problem number 3, with minimal reduced cost rule...
+Solving problem set 41, problem number 3, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q =  7 	rq =   -486.00 	B[p] =  7 	theta* = 0.5098 	z = 2522.24  
@@ -348,7 +348,7 @@ Phase I terminated.
 
 
 
-Solving problem set 41, problem number 4, with minimal reduced cost rule...
+Solving problem set 41, problem number 4, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q = 10 	rq =   -394.00 	B[p] = 10 	theta* = 0.0769 	z = 1111.69  
@@ -426,7 +426,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 1, with minimal reduced cost rule...
+Solving problem set 70, problem number 1, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q = 11 	rq =   -417.00 	B[p] = 11 	theta* = 0.6098 	z = 1920.73  
@@ -471,7 +471,7 @@ Phase II terminated.
 | Basic indices: {0, 3, 4, 5, 7, 9, 12, 16, 18, 19}                      |
 | Nonbasic indices: {1, 2, 6, 8, 10, 11, 13, 14, 15, 17}                 |
 |                                                                        |
-| Optimal cost: -471.5280570076608.                                      |
+| Optimal cost: -471.5280570076607.                                      |
 --------------------------------------------------------------------------
 15 iterations in phase I, 13 iterations in phase II (28 total).
 
@@ -526,14 +526,14 @@ Phase II terminated.
 | Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
 | Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
 |                                                                        |
-| Optimal cost: -794.2416134199493.                                      |
+| Optimal cost: -794.2416134199495.                                      |
 --------------------------------------------------------------------------
 13 iterations in phase I, 18 iterations in phase II (31 total).
 
 
 
 
-Solving problem set 70, problem number 2, with minimal reduced cost rule...
+Solving problem set 70, problem number 2, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q =  9 	rq =   -538.00 	B[p] =  9 	theta* = 0.8052 	z = 2253.81  
@@ -581,7 +581,7 @@ Phase II terminated.
 | Basic indices: {0, 1, 7, 10, 11, 13, 15, 16, 17, 19}                   |
 | Nonbasic indices: {2, 3, 4, 5, 6, 8, 9, 12, 14, 18}                    |
 |                                                                        |
-| Optimal cost: -794.24161341995.                                        |
+| Optimal cost: -794.2416134199493.                                      |
 --------------------------------------------------------------------------
 12 iterations in phase I, 19 iterations in phase II (31 total).
 
@@ -617,7 +617,7 @@ Phase I terminated.
 
 
 
-Solving problem set 70, problem number 3, with minimal reduced cost rule...
+Solving problem set 70, problem number 3, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q =  2 	rq =   -408.00 	B[p] =  2 	theta* = 0.9767 	z = 1202.49  
@@ -713,7 +713,7 @@ Phase II terminated.
 
 
 
-Solving problem set 70, problem number 4, with minimal reduced cost rule...
+Solving problem set 70, problem number 4, with minimal reduced cost...
 
 Executing phase I...
 	Iteration no. 1:	q =  5 	rq =   -638.00 	B[p] =  5 	theta* = 7.2683 	z = 2605.83  

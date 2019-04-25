@@ -13,7 +13,7 @@ from pysimplex.utils import *
 
 
 def simplex(costs: np.ndarray, constraints: np.ndarray, independent_terms: np.ndarray,
-            *, rule: PivotingRule = PivotingRule.BLAND,  verbose: bool = True) -> SolveResult:
+            *, rule: PivotingRule = PivotingRule.BLAND, verbose: bool = True) -> SolveResult:
     """
     Outer wrapper for executing the simplex method, phase I and phase II.
     :param costs:  cost coefficients for each variable
@@ -33,7 +33,7 @@ class Simplex:
     def __init__(self, lp: LinearProgrammingProblem):
         self.lp = lp
 
-    def solve(self, rule: PivotingRule = PivotingRule.BLAND, *, verbose: bool = True) \
+    def solve(self, *, rule: PivotingRule = PivotingRule.BLAND, verbose: bool = True) \
             -> SolveResult:
         """
         Outer "wrapper" for executing the simplex method: phase I and phase II.
@@ -43,19 +43,19 @@ class Simplex:
         if verbose:
             np.set_printoptions(precision=3, threshold=10, edgeitems=4, linewidth=120)
 
-        phaseI_result = self.run_phaseI(verbose=verbose)
+        phaseI_result = self.run_phaseI(rule=rule, verbose=verbose)
         if phaseI_result.optimal_cost > 0:
             if verbose: _print_unfeasible(phaseI_result)
             return SolveResult(SolveResult.ExitCode.UNFEASIBLE, iterations=phaseI_result.iterations)
 
-        phaseII_result = self.run_phaseII(phaseI_result, verbose=verbose)
+        phaseII_result = self.run_phaseII(phaseI_result, rule=rule, verbose=verbose)
         if verbose:
             _print_phaseII(phaseII_result)
             _print_iterations(phaseI_result, phaseII_result)
         return phaseII_result
 
 
-    def run_phaseI(self, *, verbose: bool) -> SolveResult:
+    def run_phaseI(self, *, rule: PivotingRule, verbose: bool) -> SolveResult:
         m, n = self.lp.nrows, self.lp.ncols
 
         mask = self.lp.independent_terms < 0
@@ -71,13 +71,15 @@ class Simplex:
         basic_I = set(range(n, n + m))
 
         if verbose: print("Executing phase I...")
-        result = SimplexCore(phaseI, initial_bfs=x_I, basic_indices=basic_I).solve(verbose=verbose)
+        result = SimplexCore(phaseI, initial_bfs=x_I, basic_indices=basic_I).solve(rule=rule,
+                                                                                   verbose=verbose)
         if verbose: print("Phase I terminated.")
         assert result.exit is SolveResult.ExitCode.OPTIMUM
 
         return result
 
-    def run_phaseII(self, phaseI_result: SolveResult, *, verbose: bool) -> SolveResult:
+    def run_phaseII(self, phaseI_result: SolveResult,
+                    *, rule: PivotingRule, verbose: bool) -> SolveResult:
         # Get initial BFS for original problem (without artificial variables):
         self._remove_artificial_variables(phaseI_result)
         init_bfs = phaseI_result.solution[:self.lp.ncols]
@@ -85,7 +87,7 @@ class Simplex:
         if verbose: print("Found initial BFS at x = \n{}.\n".format(init_bfs))
 
         if verbose: print("Executing phase II...")
-        result = SimplexCore(self.lp, init_bfs, init_base).solve(verbose=verbose)
+        result = SimplexCore(self.lp, init_bfs, init_base).solve(rule=rule, verbose=verbose)
         if verbose: print("Phase II terminated.\n")
 
         return result

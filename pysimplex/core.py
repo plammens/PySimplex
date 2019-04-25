@@ -1,4 +1,5 @@
 from typing import Optional
+from operator import itemgetter
 
 from pysimplex.lp import *
 from pysimplex.pivoting import PivotingRule
@@ -30,8 +31,11 @@ class SimplexCore:
         # noinspection PyTypeChecker
         self.cost = np.dot(self.lp.costs, self.basic_feasible_solution)  # Value of obj. function
 
-        self.entering_reduced_cost, self.entering_index, self.direction = None, None, None
+    @property
+    def x(self): return self.basic_feasible_solution
 
+    @x.setter
+    def x(self, value): self.basic_feasible_solution = value
 
     def solve(self, *, rule: PivotingRule = PivotingRule.BLAND,
               verbose: bool = True) -> SolveResult:
@@ -77,23 +81,22 @@ class SimplexCore:
         the entering nonbasic index (according to the given pivoting rule), and its
         associated reduced cost.
         """
+        A, c = self.lp.constraints, self.lp.costs
 
         # Shadow prices:
         prices = self.lp.costs[self.basic_indices] @ self.basic_matrix_inverse
 
+        # qth reduced cost:
+        def r(q: int): return (c[q] - prices @ A[:, q]).item()
+
         if rule is PivotingRule.BLAND:  # Bland rule
-            for q in self.nonbasic_indices:  # Read in lexicographical index order
-                reduced_cost = (self.lp.costs[q] - prices @ self.lp.constraints[:, q])
-                if reduced_cost < 0:
-                    return False, q, reduced_cost
-            return True, None, None
+            q, reduced_cost = min((tup for tup in ((q, r(q)) for q in self.nonbasic_indices)
+                                   if tup[1] < 0), default=(None, None))
+            return q is None, q, reduced_cost
 
         elif rule is PivotingRule.MIN_REDUCED_COST:  # Minimal reduced cost rule
-            reduced_cost, q = min(
-                ((self.lp.costs[q] - prices @ self.lp.constraints[:, q]).item(), q)
-                for q in self.nonbasic_indices
-            )
-            return self.entering_reduced_cost >= 0, q, reduced_cost
+            reduced_cost, q = min((r(q), q) for q in self.nonbasic_indices)
+            return reduced_cost >= 0, q, reduced_cost
 
         else:
             raise ValueError("Invalid pivoting rule")
@@ -133,13 +136,13 @@ class SimplexCore:
 
     def move_along_direction(self, direction: np.ndarray, step_length: float,
                              p: int, q: int, r_q: float):
-        x, d = self.basic_feasible_solution, direction
+        x, d = self.x, direction
         B, N = self.basic_indices, self.nonbasic_indices
         B_inv = self.basic_matrix_inverse
 
-        x = np.fromiter((trunc(elem) for elem in (x + step_length * d)), count=len(x),
-                        dtype=x.dtype)
-        assert x[B[p]] == 0  # Update all variables
+        self.x += step_length*direction
+        self.x = np.fromiter((trunc(elem) for elem in x), dtype=self.x.dtype, count=len(x))
+        assert self.x[B[p]] == 0  # Update all variables
         self.cost = trunc(self.cost + step_length * r_q)  # Update obj. function value
 
         # Update inverse:

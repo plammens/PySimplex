@@ -14,7 +14,7 @@ class LinearProgrammingProblem:
 
         self.constraints = constraints
         self._remove_ld_rows()
-        if costs.shape != self.ncols or independent_terms.shape != self.nrows:
+        if costs.shape[0] != self.ncols or independent_terms.shape[0] != self.nrows:
             raise ValueError("shapes do not match")
         self.costs, self.independent_terms = costs, independent_terms
 

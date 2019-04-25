@@ -44,7 +44,7 @@ class SolveResult:
     @property
     def direction(self):
         self._check_exit(SolveResult.ExitCode.UNBOUNDED)
-        return self._solution
+        return self._direction
 
     def _check_exit(self, *expected_codes: ExitCode):
         if self.exit not in expected_codes:

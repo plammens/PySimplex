@@ -9,7 +9,7 @@ import argparse as arg
 import sys
 import re
 import numpy as np
-from pysimplex import wrapper
+from pysimplex import *
 
 
 """Parse system arguments"""
@@ -41,12 +41,12 @@ args = arg_parser.parse_args(sys.argv[1:])
 
 num = args.num
 prob = args.prob
-rule = 0 if args.rule == "bland" else 1
+rule = PivotingRule.BLAND if args.rule == "bland" else PivotingRule.MIN_REDUCED_COST
 
 
 """Read corresponding problem"""
 
-with open("pm18_exercici_simplex_dades.txt", 'r') as file:
+with open("data/pm18_exercici_simplex_dades.txt", 'r') as file:
     def skip_to(patt: re.Pattern):
         while True:
             line = file.readline()
@@ -101,7 +101,6 @@ with open("pm18_exercici_simplex_dades.txt", 'r') as file:
 
 """Run the simplex algorithm"""
 
-print("Solving problem set {}, problem number {}, with {} rule..."
-      .format(num, prob, "Bland's" if rule == 0 else "minimal reduced cost"), end="\n\n")
-wrapper.simplex(A, b, c, rule)
+print("Solving problem set {}, problem number {}, with {}...".format(num, prob, rule.value), end="\n\n")
+wrapper.simplex(c, A, b, rule=rule, verbose=True)
 print("\n\n")
